@@ -1,4 +1,6 @@
 import numpy as np
+#from sklearn.model_selection import KFold
+import sklearn as sk
 from smo import smo
 
 def gaussian_kernel(x, y, sigma):
@@ -52,7 +54,32 @@ class mySVM:
         self.b = extract_b(self.alpha[self.supp_indices], training_labels[self.supp_indices], self.supp_vectors, self.kernel, self.penalty)
         if self.kernel == scalar_product:
             self.w = extract_w(self.alpha, training_labels, training_data, self.supp_indices)
-			
 
+    def decision_function(self, new_data):
+        l = len(new_data)
+        y = np.zeros(l)
+        for i in range(l):
+            x = new_data[i]
+            k = np.array([self.kernel(y, x) for y in self.supp_vectors])
+            atimeslabels_supp = np.multiply(self.alpha[self.supp_indices], self.training_labels[self.supp_indices])
+            y[i] = np.dot(atimeslabels_supp, k) + self.b
+        return y
 
-	
+def cross_validation(data,labels, penalty, kernel, sigma = .1):
+    l = len(data)  
+    kf = sk.model_selection.KFold(n_splits=2, shuffle=True)
+    score = [0,0]
+    i=0
+    for train_index, test_index in kf.split(data):
+        #split into training set and test set
+        #training_data = data[train_index]
+        #test_data = data[test_index]
+        #training_labels = labels[train_index]
+        #test_labels = labels[test_index]
+        svm = mySVM(kernel=kernel, penalty=penalty, sigma=sigma)
+        svm.fit(data[train_index], labels[train_index])
+        predictions = np.sign(svm.decision_function(data[test_index]))
+        score[i] = sum(predictions==labels[test_index])/float(len(test_index))
+        i += 1
+    score = 0.5*(score[0]+score[1])
+    return score
