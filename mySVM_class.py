@@ -1,5 +1,5 @@
 def gaussian_kernel(x, y, sigma):
-	return np.exp(-sigma*np.linalg.norm(x-y))
+	return np.exp(-sigma*np.linalg.norm(x-y)**2)
 
 class mySVM:
     
@@ -44,7 +44,7 @@ def y_withoutb(x, alpha_supp, labels_supp, data_supp, kernel):
 
 def extract_b(alpha_supp, labels_supp, data_supp, kernel, C):
     indicesonmargin = np.array([i for i in range(len(data_supp)) if alpha_supp[i]<C ])
-    return 1./len(indicesonmargin)*sum([labels_supp[i]-y_withoutb(data_supp[i],alpha_supp, labels_supp, data_supp, kernel) for i in range(len(indicesonmargin))])
+    return 1./len(indicesonmargin)*sum([labels_supp[i]-y_withoutb(data_supp[i],alpha_supp, labels_supp, data_supp, kernel) for i in indicesonmargin])
 	
 def scalar_product(v1,v2):
     '''standard scalar product'''
