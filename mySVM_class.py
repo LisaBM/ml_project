@@ -1,4 +1,5 @@
-
+def gaussian_kernel(x, y, sigma):
+	return np.exp(-sigma*np.linalg.norm(x-y))
 
 class mySVM:
     
@@ -48,7 +49,4 @@ def extract_b(alpha_supp, labels_supp, data_supp, kernel, C):
 def scalar_product(v1,v2):
     '''standard scalar product'''
     return np.dot(v1,v2)
-	
-def gaussian_kernel(x, y, sigma):
-    return np.exp(-sigma*np.linalg.norm(x-y))
 	
