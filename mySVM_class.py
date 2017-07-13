@@ -2,14 +2,22 @@ import numpy as np
 #from sklearn.model_selection import KFold
 import sklearn as sk
 from smo import smo
+import scipy
+
+import pickle
+
+from sklearn.metrics.pairwise import pairwise_kernels
+from scipy.optimize import minimize
+from scipy.spatial.distance import hamming
+
 
 def gaussian_kernel(x, y, sigma):
-	return np.exp(-sigma*np.linalg.norm(x-y)**2)
-	
+    return np.exp(-sigma*np.linalg.norm(x-y)**2)
+
 def scalar_product(v1,v2):
     '''standard scalar product'''
     return np.dot(v1,v2)
-	
+
 def extract_suppvectors(alpha, data):
     supp_indices = np.array([i for i in range(len(data)) if not alpha[i]==0])
     supp_vectors = data[supp_indices]
@@ -83,3 +91,121 @@ def cross_validation(data,labels, penalty, kernel, sigma = .1):
         i += 1
     score = 0.5*(score[0]+score[1])
     return score
+
+
+def cross_validation_ecoc(data, labels, penalty, kernel=scalar_product, sigma = .1):
+    l = len(data)  
+    kf = sk.model_selection.KFold(n_splits=2, shuffle=True)
+    score = [0,0]
+    i=0
+    for train_index, test_index in kf.split(data):
+
+        ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words = ecoc(
+            data[train_index],
+            labels[train_index],
+            penalty = penalty
+        )
+        final_labels = predict_ecoc(
+            data[test_index],
+            data[train_index],
+            ecoc_labels,
+            list_supp_ind,
+            list_alpha,
+            list_b,
+            list_kernel,
+            code_words
+        )
+
+        score[i] = sum(final_labels==labels[test_index])/float(len(test_index))
+        i += 1
+    score = 0.5*(score[0]+score[1])
+    return score
+
+def ecoc(labeled_data, labels, kernel=scalar_product, penalty=1, list_sigma=[0.1]*15):
+    # 
+    labels=labels.astype(int)
+    l=np.shape(labeled_data)[0]
+    num_classifiers=15
+    ecoc_labels=np.zeros((l,15))
+    
+    # define code_word matrix, the ith row corresponds to the number i
+    # each column corresponds to a classifier that will have to be trained
+    code_words=np.array([
+        [ 1,  1, -1, -1, -1, -1,  1, -1,  1, -1, -1,  1,  1, -1,  1],
+        [-1, -1,  1,  1,  1,  1, -1,  1, -1,  1,  1, -1, -1,  1, -1],
+        [ 1, -1, -1,  1, -1, -1, -1,  1,  1,  1,  1, -1,  1, -1,  1],
+        [-1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1, -1,  1],
+        [ 1,  1,  1, -1,  1, -1,  1,  1, -1, -1,  1, -1, -1, -1,  1],
+        [-1,  1, -1, -1,  1,  1, -1,  1,  1,  1, -1, -1, -1, -1,  1],
+        [ 1, -1,  1,  1,  1, -1, -1, -1, -1,  1, -1,  1, -1, -1,  1],
+        [-1, -1, -1,  1,  1,  1,  1, -1,  1, -1,  1,  1, -1, -1,  1],
+        [ 1,  1, -1,  1, -1,  1,  1, -1, -1,  1, -1, -1, -1,  1,  1],
+        [-1,  1,  1,  1, -1, -1, -1, -1,  1, -1,  1, -1, -1,  1,  1]])
+    
+    # up until now training data has labels from 0 to 9
+    # now these are replaced by the 15 digit string given by code_words
+    for j in range(l):
+        ecoc_labels[j]=code_words[labels[j]]
+    
+    list_supp_ind = []
+    list_alpha =[]
+    list_b =[]
+    list_kernel=[]
+    
+    # class an svm object for each classifier
+    # here would be the possibility to parallelize
+    for classifier in range(15):
+        svm=mySVM(kernel=kernel, penalty=penalty, sigma=list_sigma[classifier])
+        svm.fit(labeled_data, ecoc_labels[:,classifier])
+        list_supp_ind.append(svm.supp_indices)
+        list_alpha.append(svm.alpha)
+        list_b.append(svm.b)
+        list_kernel.append(svm.kernel)
+        
+    # pickle dump to save and call saved objects    
+    pickle.dump((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words), open( "trained_ecoc_"+str(l)+".dat", "wb" ))
+    
+    # now I need to call a binary classifier for each column of ecoc_labels
+    # from decision functions we get seperating hyperplanes, margin, ... 
+    # return those
+    
+    
+    return ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words
+
+
+
+# suppose we have an unlabeled data point
+def predict_ecoc(unlabeled_data, labeled_data, ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words):
+    # every row is one data point
+    # number of rows = # of data points
+    l=np.shape(unlabeled_data)[0]
+    new_labels=np.zeros((l,15))
+    
+    temp_label_ind=[]
+    final_labels = np.array([float('inf')]*l)
+    
+    for classifier in range(15):
+        a_supp = list_alpha[classifier][list_supp_ind[classifier]]
+        ecoc_labels_supp = ecoc_labels[list_supp_ind[classifier],classifier]
+        a_times_labels=np.multiply(a_supp, ecoc_labels_supp)
+        
+        for i in range(l):
+            # i_th row of kernel matrix k
+            k=np.array([list_kernel[classifier](unlabeled_data[i],y) for y in labeled_data[list_supp_ind[classifier]]])
+            
+            # list of lists with 15 entries, one per classifier
+            new_labels[i][classifier]=np.sign(np.dot(a_times_labels,k)+list_b[classifier])
+    
+        
+    for i in range(l):
+        ham_dist = [hamming(new_labels[i], code_words[j]) for j in range(10)]
+        temp_label_ind = [j for j in range(len(ham_dist)) if ham_dist[j] == min(ham_dist)]
+        if len(temp_label_ind)!=1:
+            print("Attention, data point could not be uniquely classified, index: " 
+                  + str(i) + ", possible classification: " + str(temp_label_ind))
+        else:
+            final_labels[i] = ham_dist.index(min(ham_dist))
+        
+   
+    return final_labels.astype(float)
+    
