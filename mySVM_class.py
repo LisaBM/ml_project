@@ -44,7 +44,7 @@ class mySVM:
         self.kernel = kernel
         self.penalty = penalty
         self.kernelmatrix_for_predict = None
-        self.tolerance = 1e-5
+        self.tolerance = 1e-2
         
     def fit(self,training_data, training_labels):
         kernel_identifier = None
