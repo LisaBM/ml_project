@@ -14,3 +14,11 @@ def m_classes(l,n,m):
         
         label = np.concatenate((labels, ))
     return data[1:], labels, centers
+
+
+data, labels, centers = m_classes(10, 2, 3)
+
+plt.scatter(centers[:,0],  centers[:,1], s=100, facecolors = 'none')
+plt.scatter(data[:10, 0], data[:10, 1])
+plt.scatter(data[10:20, 0], data[10:20, 1], facecolors='red')
+plt.scatter(data[20:30, 0], data[20:30, 1], facecolors='green')
