@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.5)  14 JUL 2017 13:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6100 64-bit) (preloaded format=pdflatex 2017.1.5)  14 JUL 2017 21:58
 entering extended mode
 **./Report_template.tex
 (Report_template.tex
@@ -803,17 +803,17 @@ File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 ]
 (Report_template.aux) ) 
 Here is how much of TeX's memory you used:
- 6460 strings out of 493333
- 86169 string characters out of 3139195
- 168633 words of memory out of 3000000
- 9808 multiletter control sequences out of 15000+200000
- 15393 words of font info for 45 fonts, out of 3000000 for 9000
+ 6464 strings out of 493333
+ 86179 string characters out of 3139195
+ 170633 words of memory out of 3000000
+ 9810 multiletter control sequences out of 15000+200000
+ 16923 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,8n,39p,571b,324s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 40i,12n,39p,571b,324s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\LMatt\AppData\Local\MiKTeX\2.9\fonts\pk\ljfou
 r\jknappen\ec\dpi600\ectt1200.pk> <C:\Users\LMatt\AppData\Local\MiKTeX\2.9\font
-s\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\LMatt\AppData\Local\MiKTe
-X\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1200.pk> <C:\Users\LMatt\AppData\L
+s\pk\ljfour\jknappen\ec\dpi600\eccc1200.pk> <C:\Users\LMatt\AppData\Local\MiKTe
+X\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\LMatt\AppData\L
 ocal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\LMatt
 \AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\U
 sers\LMatt\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1440
@@ -821,12 +821,16 @@ sers\LMatt\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1440
 0\ecbx2488.pk> <C:\Users\LMatt\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappe
 n\ec\dpi600\eccc1440.pk> <C:\Users\LMatt\AppData\Local\MiKTeX\2.9\fonts\pk\ljfo
 ur\jknappen\ec\dpi600\eccc2074.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-r12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Report_template.pdf (6 pages, 134076 bytes).
+ic/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on Report_template.pdf (6 pages, 168534 bytes).
 PDF statistics:
- 269 PDF objects out of 1000 (max. 8388607)
+ 286 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
