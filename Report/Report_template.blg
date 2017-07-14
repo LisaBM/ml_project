@@ -1,0 +1,12 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Report_template.aux
+The style file: alphadin.bst
+Database file #1: Report_bib.bib
+Warning--entry type for "kaggel" isn't style-file defined
+--line 1 of file Report_bib.bib
+I was expecting a `,' or a `}'---line 3 of file Report_bib.bib
+ :  
+ :  date = {14.07.2017},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in kaggel
+(There was 1 error message)

@@ -1,0 +1,157 @@
+\documentclass[12pt, a4paper, openany, bibliography=totoc]{report} %, BCOR0mm scrbook
+
+% scrartcl ist eine abgeleitete Artikel-Klasse im Koma-Skript
+% bibliography=totoc: Literaturverzeichnis im Inhaltsverzeichnis
+% zur Kontrolle des Umbruchs Klassenoption draft verwenden
+%BCOR: Bindekorrektur
+
+
+% die folgenden Packete erlauben den Gebrauch von Umlauten und ß
+% in der Latex Datei
+\usepackage[utf8]{inputenc}
+% \usepackage[latin1]{inputenc} %  Alternativ unter Windows
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+
+\usepackage[paper=a4paper,left=25mm,right=25mm,top=25mm,bottom=25mm]{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[export]{adjustbox}
+\usepackage{pdfpages}
+% deutsches Literaturverzeichnis
+\usepackage[numbers,round]{natbib}
+
+%neue Seite für jedes Kapitel
+%\usepackage{titlesec}
+%\newcommand{\sectionbreak}{\clearpage}
+
+% Umgebungen für Definitionen, Sätze, usw.
+% Es werden Sätze, Definitionen etc innerhalb eines Chapters mit
+% 1.1, 1.2 etc durchnummeriert, ebenso die Gleichungen mit (1.1), (1.2) ..
+\newtheorem{Satz}{Satz}[chapter]
+\newtheorem{Lemma}[Satz]{Lemma}
+\newtheorem{Korollar}[Satz]{Korollar}
+
+\theoremstyle{definition}	
+\newtheorem{Definition}[Satz]{Definition}
+\newtheorem{Beispiel}[Satz]{Beispiel}
+\newtheorem{Bemerkung}[Satz]{Bemerkung}
+                    
+\numberwithin{equation}{chapter} 
+
+% einige Abkuerzungen
+\newcommand{\C}{\mathbb{C}} % komplexe
+\newcommand{\K}{\mathbb{K}} % komplexe
+\newcommand{\R}{\mathbb{R}} % reelle
+\newcommand{\Q}{\mathbb{Q}} % rationale
+\newcommand{\Z}{\mathbb{Z}} % ganze
+\newcommand{\N}{\mathbb{N}} % natuerliche
+\DeclareMathOperator{\sign}{sign}
+
+
+
+\begin{document}
+  % Keine Seitenzahlen im Vorspann
+  \pagestyle{empty}
+\begin{titlepage}
+	
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+	
+	\center % Center everything on the page
+	
+	%----------------------------------------------------------------------------------------
+	%	HEADING SECTIONS
+	%----------------------------------------------------------------------------------------
+	\hspace*{5.0cm}\\[4cm]
+
+	\textsc{\LARGE Mathematical Aspects\\[0.2cm] of Machine Learning}\\[0.5cm] % Major heading such as course name
+	\textsc{\large Report}\\[2cm] % Minor heading such as course title
+	
+	%----------------------------------------------------------------------------------------
+	%	TITLE SECTION
+	%----------------------------------------------------------------------------------------
+	
+	\HRule \\[0.8cm]
+	{ \huge \bfseries Digit Recognition\\ with Support Vector Machine}\\[0.8cm] % Title of your document
+	\HRule \\[1.5cm]
+	
+	%----------------------------------------------------------------------------------------
+	%	AUTHOR SECTION
+	%----------------------------------------------------------------------------------------
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\emph{Authors:}\\
+			Lisa \textsc{Gaedke-Merzhäuser} \\% Your name
+			Paul \textsc{Korsmeier}\\
+			Lisa \textsc{Mattrisch}\\
+			Vanessa \textsc{Schreck}\\
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright} \large
+			\emph{} \\
+			 \textsc{} % Supervisor's Name
+		\end{flushright}
+	\end{minipage}\\[2cm]
+
+	
+	
+\end{titlepage}
+
+\cleardoublepage
+  % Ab sofort Seitenzahlen unten mittig
+  \pagestyle{plain}
+
+\chapter*{Problem Statement}
+Our main goal is to correctly identify handwritten digits based on the MNIST  ("Modified National Institute of Standards and Technology") data set.
+This data set consists of 42000 gray-scale images. Each image is 28 pixels in height and 28 pixels in width. Each pixel has a single pixel-value associated with it, indicating the lightness or darkness of that pixel \cite{kaggel}.
+
+\begin{figure}[h]
+	\includegraphics[width=1\textwidth, center]{Digits2}
+	\caption{Visualization of eight of these images}
+\end{figure}
+
+
+
+
+\chapter*{Support Vector Machine}
+The support vector machine (SVM) is a binary classifier designed to find the a seperating hyperplane in the feature space resulting in a decision function of the form 
+$$f(x) = \sign(w^T \cdot \Phi(x) + b)$$
+where $\Phi$ is the feature map. 
+
+The goal is now to maximize the margin while softly penalizing points that lie
+on the wrong side of the margin boundary.
+We want to penalize missclassified points and small distances to the decision boundary and thus obtain the following minimization problem:
+$$\min{a}$$
+
+
+In the case of non linearly separable classes, misclassified points and and small distances to the decision boundary are penalized and we obtain the following optimization problem:
+
+
+
+
+\chapter*{SMO}
+
+
+\chapter*{ecoc}
+
+
+%Es wurden auch einige Eigenschaften der Fatou-Menge beleuchtet, unser Hauptaugenmerk lag jedoch auf der Julia-Menge.Trotzdem die Iterierten auf der Fatou-Menge normal sind und die Dynamik der Funktion hier in dem Sinne gut zu beschreiben ist, dass benachbarte Punkte unter Iteration ein ähnliches Verhalten zeigen, hat sie doch viele interessante Eigenschaften. Beispielsweise kann man die Zusammenhangskomponenten der Fatou-Menge klassifizieren und wird feststellen, dass es recht wenige Typen gibt. Mehr dazu findet sich in \cite{Schleicher}.
+
+
+
+\bibliography{Report_bib}
+  \bibliographystyle{alphadin}
+
+%\cleardoublepage
+%\includepdf{Selbstaendigkeitserklaerung.pdf}  
+
+
+
+\end{document}
+
