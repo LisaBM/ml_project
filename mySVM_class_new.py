@@ -1,7 +1,7 @@
 import numpy as np
 #from sklearn.model_selection import KFold
 import sklearn as sk
-from smo import smo
+from smo_new_fettesK import smo_new
 import scipy
 
 import pickle
@@ -54,7 +54,7 @@ class mySVM:
             self.kernel = kernel_sigma
         if self.kernel == scalar_product:
             kernel_identifier = 'standard scalar product'
-        solution = smo(np.transpose(training_data),training_labels,self.penalty,self.kernel,self.tolerance,'yes',kernel_identifier)
+        solution = smo_new(training_data,training_labels,self.penalty,self.kernel,self.tolerance,'yes',kernel_identifier)
         self.alpha = solution['solution']
         self.training_data = training_data
         self.training_labels = training_labels
