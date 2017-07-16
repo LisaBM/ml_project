@@ -1,11 +1,9 @@
 import numpy as np
-#from sklearn.model_selection import KFold
 import sklearn as sk
 from smo_wss2_new_fettesK import smo_new
 import scipy
-
+import functools
 import pickle
-
 from sklearn.metrics.pairwise import pairwise_kernels
 from scipy.optimize import minimize
 from scipy.spatial.distance import hamming
@@ -49,9 +47,7 @@ class mySVM:
     def fit(self,training_data, training_labels):
         kernel_identifier = None
         if self.kernel == gaussian_kernel:
-            def kernel_sigma(x, y):
-                return gaussian_kernel(x, y, self.sigma)
-            self.kernel = kernel_sigma
+            self.kernel = functools.partial(gaussian_kernel, sigma = self.sigma)
         if self.kernel == scalar_product:
             kernel_identifier = 'standard scalar product'
         solution = smo_new(training_data,training_labels,self.penalty,self.kernel,self.tolerance,'yes',kernel_identifier)
@@ -121,12 +117,19 @@ def cross_validation_ecoc(data, labels, penalty, kernel=scalar_product, sigma = 
     score = 0.5*(score[0]+score[1])
     return score
 
-def ecoc(labeled_data, labels, kernel=scalar_product, penalty=1, list_sigma=[0.1]*15):
+def ecoc(labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list_sigma=[0.1]*15):
     # 
     labels=labels.astype(int)
     l=np.shape(labeled_data)[0]
     num_classifiers=15
     ecoc_labels=np.zeros((l,15))
+    
+    # compute barycenters of the points of each label
+    barycenters = np.zeros((10,np.shape(labeled_data)[1]));
+    for i in range(10):
+        #ind = labels == i
+        ind = [j for j,k in enumerate(labels) if k == i]
+        barycenters[i] = np.mean(labeled_data[ind], axis=0)
     
     # define code_word matrix, the ith row corresponds to the number i
     # each column corresponds to a classifier that will have to be trained
@@ -155,7 +158,7 @@ def ecoc(labeled_data, labels, kernel=scalar_product, penalty=1, list_sigma=[0.1
     # class an svm object for each classifier
     # here would be the possibility to parallelize
     for classifier in range(15):
-        svm=mySVM(kernel=kernel, penalty=penalty, sigma=list_sigma[classifier])
+        svm=mySVM(kernel=kernel, penalty=penalty_list[classifier], sigma=list_sigma[classifier])
         svm.fit(labeled_data, ecoc_labels[:,classifier])
         list_supp_ind.append(svm.supp_indices)
         list_alpha.append(svm.alpha)
@@ -170,12 +173,12 @@ def ecoc(labeled_data, labels, kernel=scalar_product, penalty=1, list_sigma=[0.1
     # return those
     
     
-    return ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words
+    return ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters
 
 
 
 # suppose we have an unlabeled data point
-def predict_ecoc(unlabeled_data, labeled_data, ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words):
+def predict_ecoc(unlabeled_data, labeled_data, ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters):
     # every row is one data point
     # number of rows = # of data points
     l=np.shape(unlabeled_data)[0]
@@ -203,6 +206,8 @@ def predict_ecoc(unlabeled_data, labeled_data, ecoc_labels, list_supp_ind, list_
         if len(temp_label_ind)!=1:
             print("Attention, data point could not be uniquely classified, index: " 
                   + str(i) + ", possible classification: " + str(temp_label_ind))
+            # ask which barycenter is closest out of temp_label_ind
+            final_labels[i] = temp_label_ind[np.argmin([np.linalg.norm(unlabeled_data[i]-barycenters[k]) for k in temp_label_ind])]
         else:
             final_labels[i] = ham_dist.index(min(ham_dist))
         
