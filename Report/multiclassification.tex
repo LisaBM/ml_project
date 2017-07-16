@@ -1,11 +1,7 @@
-Support Vector Machines are binary classifiers, meaning that there only two possible output labels. Usually, one chooses them to be $1$ and $-1$. Our problem, however, was to classify unknown data into one out of ten different categories. Since rewriting the SVM algorithm to produce a separation into multiple classes is linked to great effort, we opt for finding a way to combine several SVMs, which together would be able to choose from more than one label. There are a number of well known strategies tackling this issue. Let us first look at two very intuitive but also primitive strategies. The first one is known as One-vs-All classification. In this approach one trains as many SVMs as there are classes, i.e. ten in our case, and sets labels so that the $i$-th SVM has all training data with label $i$ set to 1 and everything else to $-1$. 
+Support Vector Machines are binary classifiers, meaning that there only two possible output labels. Usually one chooses them to be $1$ and $-1$. Our problem however was to classify unknown data into one out of $10$ different categories. Since there is no way to change one support vector machine so that it can choose from more than two labels we had to find a way to combine several SVMs, who together would be able to do so. There are a number of well known strategies tackling this issue. Let us first look at two very intuitive but also primitive strategies. The first one is One-vs-All classification. In this approach one trains as many SVMs as one has classes, so 10 in our case, and sets labels so that the i-th SVM has all training data with label i set to one and everything else to $-1$. .... This approach has many issues. Not uniquely classified. Advantage low compute time, one has to at least expect to train $10$ binary classifiers to divide into $10$ different categories. depends on which one first...? ambiguities, confidence score or sth else, some areas several labels...  also a problem: problem not balanced, much more negatives than positives. how does this affect the algorithm?
 
-....
-
-This approach has many issues. Not uniquely classified. Advantage low compute time, one has to at least expect to train $10$ binary classifiers to divide into $10$ different categories. depends on which one first...? some areas several labels...  
-
-The other possibility is called One-vs-One classification. Here one only ever considers the data corresponding to two classes and sets one label to $1$ and the other one to $-1$. ... 
-In our case this would mean training $45$ SVMs (the number arises from the binary coefficient of 10 choose 2...). advantage/disadvantage
+The other possibility is called One-vs-One classification. Here one only ever considers the data corresponding to two classes (pair) and sets one label to $1$ and the other one to $-1$. ... 
+In our case this would mean training $45$ SVMs, although class numbers much smaller (the number arises from the binomial coefficient of 10 choose 2... or $n*(n-1)/2$). advantage/disadvantage same problem with ambiguities
 
 We only tried the first approach since as just mentioned the compute time for the second one was simply too high for us considering that we have a very large amount of training data. In the One-vs-All results were very very disappointing. In the case of a linear as well as a Gaussian kernel ... In the linear case this can be explained by the fact that our training data was simply not linearly seperable. 
 Hence we added in an additional feature. We computed the barycenters of the data points of each class. When a data point could not be uniquely classified we would give it the label of the barycenter it was closest to. This method led to a major improvement of our results. Our algorithm now labeled about 60\% of our data correctly (... see appendix).  Nevertheless the result was still not satisfactory. 
@@ -21,18 +17,18 @@ They are easiest to explain considering a concrete example. We trained 15 differ
 	\caption{Error Correcting Output Codes}
 	\label{Codewords}
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-	\hline
-	Class	& $f_0$ & $f_1$ & $f_2$ & $f_3$ & $f_4$ & $f_5$ & $f_6$ & $f_7$ & $f_8$ & $f_9$ & $f_{10}$ & $f_{11}$ & $f_{12}$ & $f_{13}$ & $f_{14}$ \\ \hline \hline
-	0	& 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 & -1 & 1 \\ \hline
-	1	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	2	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	3	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	4	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	5	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	6	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	7	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	8	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
-	9	&  &  &  &  &  &  &  &  &  &  &  &  &  &  & \\ \hline
+		\hline
+		Class	& $f_0$ & $f_1$ & $f_2$ & $f_3$ & $f_4$ & $f_5$ & $f_6$ & $f_7$ & $f_8$ & $f_9$ & $f_{10}$ & $f_{11}$ & $f_{12}$ & $f_{13}$ & $f_{14}$ \\ \hline \hline
+		0	& 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 & -1 & 1 \\ \hline
+		1	& -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 \\ \hline
+		2	& 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 \\ \hline
+		3	& -1 & -1 & 1 & 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 \\ \hline
+		4	& 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
+		5	& -1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 \\ \hline
+		6	& 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 \\ \hline
+		7	& -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
+		8	& 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 \\ \hline
+		9	& -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 \\ \hline
 	\end{tabular}
 \end{table}  
 
@@ -40,10 +36,12 @@ The rows of the table show what class is assigned what label depending on each c
 
 When choosing ... many training points and .... many testing points our algorithm was correct in ... of the cases. Include things here...?
 
+
+\chapter*{Results and Conclusion}
 Linear and Gaussian.
 
 In general ECOC?
 
 Where do we bring in cross validation?
 
-%Es wurden auch einige Eigenschaften der Fatou-Menge beleuchtet, unser Hauptaugenmerk lag jedoch auf der Julia-Menge.Trotzdem die Iterierten auf der Fatou-Menge normal sind und die Dynamik der Funktion hier in dem Sinne gut zu beschreiben ist, dass benachbarte Punkte unter Iteration ein ähnliches Verhalten zeigen, hat sie doch viele interessante Eigenschaften. Beispielsweise kann man die Zusammenhangskomponenten der Fatou-Menge klassifizieren und wird feststellen, dass es recht wenige Typen gibt. Mehr dazu findet sich in \cite{Schleicher}.
+General Conclusions? Difficulties?
