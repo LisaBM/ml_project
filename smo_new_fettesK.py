@@ -116,8 +116,6 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
         I[:, i_0] = I_up_low_membership(a1, y1)
         I[:, j_0] = I_up_low_membership(a2, y2)
 
-        # 4.) berechne neues i_0 und j_0  für maximally violating pair und dazu b_up, b_low
-
 
         # now choose i_0,j_0 for next iteration and compute b_up, b_low for these i_0,j_0
 

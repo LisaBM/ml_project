@@ -46,7 +46,7 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
     # sparse bleiben
 
     # sparse, i.e., no memory overflow so far
-    K = np.empty([l, l])
+    K = np.zeros((l,l))
 
     rows_calc = []
 

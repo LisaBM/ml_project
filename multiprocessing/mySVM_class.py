@@ -1,7 +1,7 @@
 import numpy as np
 #from sklearn.model_selection import KFold
 import sklearn as sk
-from smo_wss2_new_fettesK import smo_new
+from smo import smo
 import scipy
 import functools
 
@@ -55,7 +55,7 @@ class mySVM:
             self.kernel = functools.partial(gaussian_kernel, sigma = self.sigma)
         if self.kernel == scalar_product:
             kernel_identifier = 'standard scalar product'
-        solution = smo_new(training_data,training_labels,self.penalty,self.kernel,self.tolerance,'yes', kernel_identifier)
+        solution = smo(np.transpose(training_data),training_labels,self.penalty,self.kernel,self.tolerance,'yes', kernel_identifier)
         self.alpha = solution['solution']
         self.training_data = training_data
         self.training_labels = training_labels
@@ -123,13 +123,13 @@ def cross_validation_ecoc(data, labels, penalty, kernel=scalar_product, sigma = 
     score = 0.5*(score[0]+score[1])
     return score
 
-def ecoc(output, classifier, labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list_sigma=[0.1]*15):
+def ecoc(labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list_sigma=[0.1]*15):
     # 
     labels=labels.astype(int)
     l=np.shape(labeled_data)[0]
-    #num_classifiers=15
-    ecoc_labels = np.zeros((l, 15))
-
+    num_classifiers=15
+    ecoc_labels=np.zeros((l,15))
+    
     # compute barycenters of the points of each label
     barycenters = np.zeros((10,np.shape(labeled_data)[1]));
         
@@ -165,13 +165,13 @@ def ecoc(output, classifier, labeled_data, labels, kernel=scalar_product, penalt
     
     # class an svm object for each classifier
     # here would be the possibility to parallelize
-    #for classifier in range(15):
-    svm=mySVM(kernel=kernel, penalty=penalty_list[classifier], sigma=list_sigma[classifier])
-    svm.fit(labeled_data, ecoc_labels[:,classifier])
-    list_supp_ind.append(svm.supp_indices)
-    list_alpha.append(svm.alpha)
-    list_b.append(svm.b)
-    list_kernel.append(svm.kernel)
+    for classifier in range(15):
+        svm=mySVM(kernel=kernel, penalty=penalty_list[classifier], sigma=list_sigma[classifier])
+        svm.fit(labeled_data, ecoc_labels[:,classifier])
+        list_supp_ind.append(svm.supp_indices)
+        list_alpha.append(svm.alpha)
+        list_b.append(svm.b)
+        list_kernel.append(svm.kernel)
         
     # pickle dump to save and call saved objects    
     pickle.dump((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words), open( "trained_ecoc_"+str(l)+".dat", "wb" ))
@@ -181,7 +181,7 @@ def ecoc(output, classifier, labeled_data, labels, kernel=scalar_product, penalt
     # return those
     
     
-    output.put((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters))
+    return ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters
 
 
 
