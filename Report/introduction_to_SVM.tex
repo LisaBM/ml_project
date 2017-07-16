@@ -1,0 +1,19 @@
+Given data points $\{x_i\}_{i=1}^l \subset \R^d$ with respective labels $\{y_i\}_{i=1}^l \subset \{\pm 1\}$ we want to seperate differently labelled points using a decision function of the form
+\begin{equation*}
+f(x) = \operatorname{sgn}\left(w^T\Phi(x) + b\right)
+\end{equation*}
+where $\Phi$ is the feature map as introduced in the lecture.
+
+The Support Vector Machine (SVM) is a binary classifier that aims to find the maximum margin hyperplane in the feature space, i.e. the goal is to maximize the margin while softly penalizing points that lie on the wrong side of the boundary or inside the margin \cite{Bishop2006}. Dualizing this optimization problem, we obtain the following equivalent quadratic program:
+\begin{equation*}
+\begin{aligned}
+& \underset{0 \leq \alpha \leq C}{\text{maximize}}
+& & \sum_{i = 1}^{l}\alpha_i - \frac{1}{2} \sum_{i, j = 1}^{l}\alpha_i  \alpha_j y_i y_j k(x_i, x_j)
+\end{aligned}
+\end{equation*}
+with the dual variable $\alpha$, kernel function $k$ and penalty $C$.
+After finding the optimal solution $\alpha^*$ of this program, we can formulate the resulting decision function as
+\begin{equation*}
+f(x) = \operatorname{sgn}\left(\sum_{i=1}^{l}\alpha^*_i y_i k(x_i,x_j)+b\right).
+\end{equation*}
+Note that only data points $x_i$ with $\alpha_i \neq 0$ appear in the decision function. Those points are called \textit{support vectors}. By analysing primal, dual and the corresponding KKT conditions, we find that any $x_i$ with $\alpha_i = C$ was correctly classified and lies exactly on the margin boundary, and any $x_i$ with $0<\alpha_i < C$ lies either inside the margin or on the wrong side of the margin. Additionally, any data points $x_i$ on the (correct) margin boundary must satisfy $y_i\cdot f(x_i) = 1$. We can use this property to find the parameter $b$ \cite{Bishop2006}.
