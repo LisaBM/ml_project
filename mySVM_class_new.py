@@ -164,9 +164,9 @@ def ecoc(labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list
         list_alpha.append(svm.alpha)
         list_b.append(svm.b)
         list_kernel.append(svm.kernel)
-        
+    
     # pickle dump to save and call saved objects    
-    pickle.dump((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words), open( "trained_ecoc_"+str(l)+".dat", "wb" ))
+    pickle.dump((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters), open( "trained_ecoc_"+str(l)+".dat", "wb" ))
     
     # now I need to call a binary classifier for each column of ecoc_labels
     # from decision functions we get seperating hyperplanes, margin, ... 
@@ -208,6 +208,7 @@ def predict_ecoc(unlabeled_data, labeled_data, ecoc_labels, list_supp_ind, list_
                   + str(i) + ", possible classification: " + str(temp_label_ind))
             # ask which barycenter is closest out of temp_label_ind
             final_labels[i] = temp_label_ind[np.argmin([np.linalg.norm(unlabeled_data[i]-barycenters[k]) for k in temp_label_ind])]
+            print("decided to take label: ", final_labels[i])
         else:
             final_labels[i] = ham_dist.index(min(ham_dist))
         
