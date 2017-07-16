@@ -30,9 +30,7 @@ l = 2*l
 def kernel(v1,v2):
     """standard scalar product"""
     return np.dot(v1,v2)
-
 kernel_identifier = kernel.__doc__
-
 
 def smo_new(output, data, label, C, kernel, tol,violationcheckyesorno):
     def I_up_low_membership(alpha_i, label_i):
@@ -260,8 +258,8 @@ sigma = 0.005
 
 if __name__ == '__main__':
     output = mp.Queue()
-    processes = [mp.Process(target=ecoc, args=(output, classifiernumber, train, train_l, C,
-    gaussian_kernel, sigma)) for classifiernumber in range(4)]
+    processes = [mp.Process(target=ecoc, args=(output, classifiernumber, train, train_l,
+                            gaussian_kernel, C, sigma)) for classifiernumber in range(4)]
 
     # Run processes
     for p in processes:

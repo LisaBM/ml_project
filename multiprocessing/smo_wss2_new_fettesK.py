@@ -168,7 +168,10 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
             N = (K[i_0])[ind]
             a_vec = K[i_0, i_0] + M - 2 * N
         else:
-            a_vec = K[i_0, i_0] + [kernel(data[j], data[j]) for j in ind] - 2 * K[i_0][ind]
+            M = np.array([ kernel(data[j], data[j]) for j in ind_viol])
+            N = K[i_0][ind]
+            a_vec = K[i_0, i_0] +  M - 2 * N
+
 
         c_vec = np.divide(bsq_vec, a_vec)
 

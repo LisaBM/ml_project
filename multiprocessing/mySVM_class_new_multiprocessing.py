@@ -121,7 +121,7 @@ def cross_validation_ecoc(data, labels, penalty, kernel=scalar_product, sigma = 
     score = 0.5*(score[0]+score[1])
     return score
 
-def ecoc(output, classifier, labeled_data, labels,  classifiernumber, kernel=scalar_product, penalty=1, list_sigma=[0.1]*15):
+def ecoc(output, classifier, labeled_data, labels, kernel=scalar_product, penalty=1, list_sigma=0.1):
     labels=labels.astype(int)
     l=np.shape(labeled_data)[0]
     #num_classifiers=15
@@ -155,7 +155,7 @@ def ecoc(output, classifier, labeled_data, labels,  classifiernumber, kernel=sca
     # here would be the possibility to parallelize
     # this is what is attempted here!
 
-    svm=mySVM(kernel=kernel, penalty=penalty, sigma=list_sigma[classifier])
+    svm=mySVM(kernel=kernel, penalty=penalty, sigma=list_sigma)
     svm.fit(labeled_data, ecoc_labels)
     list_supp_ind.append(svm.supp_indices)
     list_alpha.append(svm.alpha)
