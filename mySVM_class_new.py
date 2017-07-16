@@ -164,7 +164,7 @@ def ecoc(labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list
         list_alpha.append(svm.alpha)
         list_b.append(svm.b)
         list_kernel.append(svm.kernel)
-    
+
     # pickle dump to save and call saved objects    
     pickle.dump((ecoc_labels, list_supp_ind, list_alpha, list_b, list_kernel, code_words, barycenters), open( "trained_ecoc_"+str(l)+".dat", "wb" ))
     
