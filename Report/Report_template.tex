@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper, openany]{report} %, BCOR0mm scrbook
+\documentclass[12pt, a4paper, openany]{article} %, BCOR0mm scrbook
 
 % scrartcl ist eine abgeleitete Artikel-Klasse im Koma-Skript
 % bibliography=totoc: Literaturverzeichnis im Inhaltsverzeichnis
@@ -31,7 +31,7 @@
 % Umgebungen für Definitionen, Sätze, usw.
 % Es werden Sätze, Definitionen etc innerhalb eines Chapters mit
 % 1.1, 1.2 etc durchnummeriert, ebenso die Gleichungen mit (1.1), (1.2) ..
-\newtheorem{Satz}{Satz}[chapter]
+\newtheorem{Satz}{Satz}[section]
 \newtheorem{Lemma}[Satz]{Lemma}
 \newtheorem{Korollar}[Satz]{Korollar}
 
@@ -40,7 +40,7 @@
 \newtheorem{Beispiel}[Satz]{Beispiel}
 \newtheorem{Bemerkung}[Satz]{Bemerkung}
                     
-\numberwithin{equation}{chapter} 
+\numberwithin{equation}{section} 
 
 % einige Abkuerzungen
 \newcommand{\C}{\mathbb{C}} % komplexe
@@ -109,25 +109,19 @@
   % Ab sofort Seitenzahlen unten mittig
   \pagestyle{plain}
 
-\chapter*{Problem Statement}
+\section{Problem Statement and Introduction to SVM}
 \input{introduction_to_problem.tex}
 
 
-
-\chapter*{Support Vector Machine}
-\input{introduction_to_SVM.tex}
-
+\section{Solving the optimization problem with SMO}
+%\input{our_own_SMO.tex}
 
 
-\chapter*{Solving the optimization problem with SMO}
-\input{our_own_SMO.tex}
-
-
-\chapter*{Multi Class Classification Problem}
+\section{Multiclass Classification Problem}\label{ch_multiclass}
 \input{multiclassification.tex}
 
 
-\chapter*{Results, Difficulties \& Conclusions}
+\section{Results, Difficulties \& Conclusions}
 \input{results.tex}
 
 \bibliography{Report_bib}

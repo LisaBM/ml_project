@@ -1,8 +1,4 @@
-Given data points $\{x_i\}_{i=1}^l \subset \R^d$ with respective labels $\{y_i\}_{i=1}^l \subset \{\pm 1\}$ we want to seperate differently labelled points using a decision function of the form
-\begin{equation*}
-f(x) = \operatorname{sgn}\left(w^T\Phi(x) + b\right)
-\end{equation*}
-where $\Phi$ is the feature map as introduced in the lecture.
+
 
 The Support Vector Machine (SVM) is a binary classifier that aims to find the maximum margin hyperplane in the feature space, i.e. the goal is to maximize the margin while softly penalizing points that lie on the wrong side of the boundary or inside the margin \cite{Bishop2006}. Dualizing this optimization problem, we obtain the following equivalent quadratic program:
 \begin{equation*}

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
+def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
 
     def I_up_low_membership(alpha_i, label_i):
 

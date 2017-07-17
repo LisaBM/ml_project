@@ -1,31 +1,11 @@
 import numpy as np
 
 
-
-def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
-
-    def F(i, alpha):
-        out = - label[i]
-        for j in range(l):
-            out = out + alpha[j] * label[j] * kernel(data[i], data[j])
-        return out
-
-    def I_membership_no(a, y):
-        if 0 < a < C:
-            return 0
-        elif a == 0 and y == 1:
-            return 1
-        elif a == C and y == -1:
-            return 2
-        elif a == C and y == 1:
-            return 3
-        else:
-            return 4
-
+def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
     def I_up_low_membership(alpha_i, label_i):
 
         # very important!
-        null = 1e-15
+        null = 1e-16
         v = np.array([False, False])
         if (alpha_i < C - null and label_i == 1) or (alpha_i > null and label_i == -1):
             v[0] = True
@@ -55,11 +35,10 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
 
     fcache = -label.astype(float)
 
-    # iter is crucial for this algorithm, do not remove!
-    iter = 0
+    # iter = 0
+    # cycle = 0
     stuckcache = -np.ones(2)
     stuckcounter = 0
-    # cycle = 0
 
     # kostenintensiv bei SMO mit maximal violating pairs ist das ständige Neuberechnen der kompletten Kernel-Matrix;
     # initialisiere daher lxl - Nullmatrix und speichere alle bisher berechneten kernel-Berechnung ab
@@ -91,13 +70,12 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
             L = max(0, alph2 + alph1 - C)
             H = min(C, alph2 + alph1)
 
-        if iter == 0:
-            if i_0 not in rows_calc:
-                if kernel_identifier == 'standard scalar product':
-                    K[i_0] = np.dot(data, data[i_0])
-                else:
-                    K[i_0] = [kernel(data[i], data[i_0]) for i in range(l)]
-                rows_calc.append(i_0)
+        if i_0 not in rows_calc:
+            if kernel_identifier == 'standard scalar product':
+                K[i_0] = np.dot(data, data[i_0])
+            else:
+                K[i_0] = [kernel(data[i], data[i_0]) for i in range(l)]
+            rows_calc.append(i_0)
 
         if j_0 not in rows_calc:
             if kernel_identifier == 'standard scalar product':
@@ -140,64 +118,27 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
         I[:, i_0] = I_up_low_membership(a1, y1)
         I[:, j_0] = I_up_low_membership(a2, y2)
 
+        # 4.) berechne neues i_0 und j_0  für maximally violating pair und dazu b_up, b_low
+
+
         # now choose i_0,j_0 for next iteration and compute b_up, b_low for these i_0,j_0
 
 
-        i_0_old = i_0
-        j_0_old = j_0
-        #b_up = float('inf')
-        #b_low = -float('inf')
-        #b_j_0 = -float('inf')
-
         I_up = I[0]
         I_low = I[1]
-        ind_up = v[I_up]
-        ind_low = v[I_low]
 
-        i_0s = np.argmin(fcache[ind_up])
-        i_0 = ind_up[i_0s]
-        b_up = fcache[i_0]
+        i_0_old = i_0
+        j_0_old = j_0
+        b_up = float('inf')
+        b_low = -b_up
 
-        # for i in v[I[0]]:
-        # if fcache[i] < b_up:
-        # b_up = fcache[i]
-        # i_0 = i
-
-        if i_0 not in rows_calc:
-            if kernel_identifier == 'standard scalar product':
-                K[i_0] = np.dot(data, data[i_0])
-            else:
-                K[i_0] = [kernel(data[i], data[i_0]) for i in range(l)]
-            rows_calc.append(i_0)
-
-        b_low = np.max(fcache[ind_low])
-
-        # for j in ind_low:
-        # calculate b_low for while termination control
-        # if fcache[j] > b_low:
-        # b_low = fcache[j]
-
-
-        # compute j_0 using second order information
-        # indices of vectors in I_low which are violating w.r.t. i_0
-        ind = np.multiply(I_low, fcache > b_up)
-        ind_viol = v[np.multiply(I_low, fcache > b_up)]
-
-        bsq_vec = (fcache[ind] - fcache[i_0]) ** 2
-        if kernel_identifier == 'standard scalar product':
-            M = np.einsum('ij,ji->i', data[ind], np.transpose(data[ind]))
-            N = (K[i_0])[ind]
-            a_vec = K[i_0, i_0] + M - 2 * N
-        else:
-            M = np.array([kernel(data[j], data[j]) for j in ind_viol])
-            N = K[i_0][ind]
-            a_vec = K[i_0, i_0] + M - 2 * N
-
-        c_vec = np.divide(bsq_vec, a_vec)
-
-        j_0s = np.argmax(c_vec)
-        j_0 = ind_viol[j_0s]
-
+        for i in range(l):
+            if I_up[i] == 1 and fcache[i] < b_up:
+                b_up = fcache[i]
+                i_0 = i
+            if I_low[i] == 1 and fcache[i] > b_low:
+                b_low = fcache[i]
+                j_0 = i
 
         if i_0 == i_0_old and j_0 == j_0_old:
             if stuckcache == [i_0, j_0]:
@@ -210,23 +151,17 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
             stuckcounter = 0
 
 
+                # if i_0_old == i_0 and j_0_old == j_0:
+                # cycle += 1
+                # print('Achtung, Paar zweimal hintereinander violating:')
+                # print('i_0 =',i_0,'j_0 =',j_0)
+                # print('alpha[i_0] =',alpha[i_0], 'alpha[j_0] =',alpha[j_0])
+                # print('alpha[i_0]_old =',alph1, 'alpha[j_0]_old =',alph2)
+                # print('fcache[i_0] =',fcache[i_0], 'fcache[j_0] =', fcache[j_0])
+                # print('fcache[i_0]_old =',F(i_0,alpha_old), 'fcache[j_0]_old =', F(j_0,alpha_old))
+                # print('b_up - b_low =', b_up - b_low)
 
-
-
-                    # for j in v[ind]:
-        # bsq = (fcache[j] - fcache[i_0])**2
-        # a = K[i_0,i_0] + kernel(data[j],data[j]) - 2* K[i_0,j]
-        # c = bsq/a
-        # if c > b_j_0:
-        # b_j_0 = c
-        # j_0 = j
-
-        #iter += 1
-        #if iter%50 == 0:
-            #print('i_0,j_0 =', i_0,j_0)
-            #print('alpha[i_0],alpha[j_0] =',alpha[i_0],alpha[j_0])
-            #print('I_membership_no(alpha[i_0],label[i_0]),I_membership_no(alpha[j_0],label[j_0]) =',I_membership_no(alpha[i_0],label[i_0]),I_membership_no(alpha[j_0],label[j_0]) )
-            #print(eta)
+                # iter += 1
 
     if violationcheckyesorno == 'yes':
 

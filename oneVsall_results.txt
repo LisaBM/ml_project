@@ -1,0 +1,18 @@
+kernel: gaussian_kernel 
+number of training points: 20000 
+number of test points: 1000 
+counter one Vs all classified: 902 
+counter barycenter classified: 98 
+number of correctly classified labels: 910  out of  1000 
+number of correctly classified labels by one vs all:  890  out of  1000 
+ 
+ 
+kernel: gaussian_kernel
+number of training points: 100
+number of test points: 100
+counter one Vs all classified 39
+counter barycenter classified 61
+number of correctly classified labels: 59 out of 100
+number of correctly classified labels by one vs all: 36 out of 100
+ 
+ 
