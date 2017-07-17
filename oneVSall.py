@@ -114,6 +114,6 @@ def predict_oneVSall(unlabeled_data, labeled_data, oneVSall_labels, list_supp_in
         
     print("counter one Vs all classified ", counter_onevsall)
     print("counter barycenter classified ", counter_barycenter)
-    return final_labels, list_oneVsall_unique_index;
+    return final_labels, list_oneVsall_unique_index, counter_onevsall,  counter_barycenter
     
     

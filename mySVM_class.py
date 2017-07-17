@@ -1,6 +1,6 @@
 import numpy as np
 import sklearn as sk
-from smo_wss2 import smo_new
+from smo_wss2 import smo
 import scipy
 import functools
 import pickle
@@ -50,7 +50,7 @@ class mySVM:
             self.kernel = functools.partial(gaussian_kernel, sigma = self.sigma)
         if self.kernel == scalar_product:
             kernel_identifier = 'standard scalar product'
-        solution = smo_new(training_data,training_labels,self.penalty,self.kernel,self.tolerance,'yes',kernel_identifier)
+        solution = smo(training_data,training_labels,self.penalty,self.kernel,self.tolerance,'yes',kernel_identifier)
         self.alpha = solution['solution']
         self.training_data = training_data
         self.training_labels = training_labels
