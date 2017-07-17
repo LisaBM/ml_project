@@ -1,6 +1,6 @@
 import numpy as np
 
-# careful, smo expects data in the shape of a dxl array, where d is the dimension of the data points and l the number of data points!
+#smo expects data in the shape of a dxl array, where d is the dimension of the data points and l the number of data points!
 def smo(data,label,C,kernel,tol,violationcheckyesorno, kernel_identifier = None):
     
     eps = 1e-12
@@ -247,7 +247,7 @@ def smo(data,label,C,kernel,tol,violationcheckyesorno, kernel_identifier = None)
         elif numChanged == 0:
             examineAll = 1
             
-            
+    # optional safety measure in order to make sure the solution is not tol-violating
     if violationcheckyesorno == 'yes':
         memb = [I_membership_no(alpha[i],label[i]) for i in range(l)]
         I_up = [memb[i] in (0,1,2) for i in range(l)]
@@ -267,7 +267,7 @@ def smo(data,label,C,kernel,tol,violationcheckyesorno, kernel_identifier = None)
         else:
             violationstring = 'tol-violations!!'
     else:
-        violationstring = 'no violation requested'
+        violationstring = 'no violationcheck requested'
 
     
     return {'solution': alpha, 'violationcheck': violationstring}

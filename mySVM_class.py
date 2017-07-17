@@ -1,6 +1,6 @@
 import numpy as np
 import sklearn as sk
-from smo_wss2 import smo
+from smo_wss1 import smo
 import scipy
 import functools
 import pickle
@@ -109,7 +109,7 @@ class mySVM:
             x = new_data[i]
             k = np.array([self.kernel(y, x) for y in self.supp_vectors])
             y_vector[i] = np.dot(atimeslabels_supp, k) + self.b
-    return y_vector #These are not the labels yet, but sgn of this are the predicted labels
+        return y_vector #These are not the labels yet, but sgn of this are the predicted labels
 
 
 ########################################

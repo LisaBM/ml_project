@@ -2,10 +2,13 @@ import numpy as np
 
 
 def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
+
+    # returns logical vector of length 2 that states the membership of \alpha_i to I_up and I_low
     def I_up_low_membership(alpha_i, label_i):
 
-        # very important!
-        null = 1e-16
+        # critical parameter, if any termination problems occur, try increasing null a bit!
+        null = 1e-15
+
         v = np.array([False, False])
         if (alpha_i < C - null and label_i == 1) or (alpha_i > null and label_i == -1):
             v[0] = True
@@ -13,54 +16,47 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
             v[1] = True
         return v
 
-    # data: images are rows of array, so the number of columns is 28**2 and the number of rows is the number of training data
+    # data: images are rows of array, so the number of columns is 28**2 and the number of rows is the
+    # number of training data
+
+    # initialize all the central objects
     l = label.shape[0]
     alpha = np.zeros(l)
-
     I = np.zeros((2, l), dtype=bool)
-
-    # initialize I, now logical vector! I[0] = I_up, I[1] = I_low
+    # I[0] = I_up, I[1] = I_low
     I[0] = label == 1
     I[1] = label == -1
-
     b_up = -1
     b_low = 1
-
     v = np.array(range(l))
     i_up_array = v[I[0]]
     i_low_array = v[I[1]]
-
     i_0 = i_up_array[0]
     j_0 = i_low_array[0]
 
+    # cache the F values in order to apply an efficient update rule after each step
     fcache = -label.astype(float)
 
+    # iteration counter, not needed for the functioning of this particular algorithm
     # iter = 0
-    # cycle = 0
+
+    # two objects that will help determine if the algorithm got stuck, see the very bottom of the while loop
     stuckcache = -np.ones(2)
     stuckcounter = 0
 
-    # kostenintensiv bei SMO mit maximal violating pairs ist das ständige Neuberechnen der kompletten Kernel-Matrix;
-    # initialisiere daher lxl - Nullmatrix und speichere alle bisher berechneten kernel-Berechnung ab
-    # die Idee ist, dass das funktionieren sollte, da die meisten alpha_i auf Null bleiben; also sollte auch unsere Gram-Matrix
-    # sparse bleiben
-
-    # sparse, i.e., no memory overflow so far
+    # Since kernel evaluations are expensive, we initialize here an array in order to store all results of such
+    # evaluations and a list to store the line numbers of the stored Gramian matrix lines
     K = np.empty([l, l])
-
     rows_calc = []
 
     while (b_up < b_low - tol):
 
         alph1 = alpha[i_0]
         alph2 = alpha[j_0]
-
         y1 = label[i_0]
         y2 = label[j_0]
-
         F1 = fcache[i_0]
         F2 = fcache[j_0]
-
         s = y1 * y2
 
         if s == -1:
@@ -69,6 +65,7 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         else:
             L = max(0, alph2 + alph1 - C)
             H = min(C, alph2 + alph1)
+
 
         if i_0 not in rows_calc:
             if kernel_identifier == 'standard scalar product':
@@ -97,16 +94,13 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
             elif a2 > H:
                 a2 = H
         else:
-            # print('Error: eta == 0')
+            # Note that this case never occurred, so we saw no need to take care of the procedure necessary here,
+            # although there is one.
             raise ValueError('Error: eta == 0')
 
         a1 = alph1 + s * (alph2 - a2)
 
-        # zum Vergleich, siehe unten, wo untersucht wird, wie oft es vorkommt, dass
-        # ein Paar nach einem Schritt sofort wieder violating ist
-        # alpha_old = np.empty(alpha.shape)
-        # np.copyto(alpha_old, alpha)
-
+        # update fcache
         fac_i_0 = y1 * (a1 - alph1)
         fac_j_0 = y2 * (a2 - alph2)
         fcache = fcache + fac_i_0 * K[i_0] + fac_j_0 * K[j_0]
@@ -114,32 +108,29 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         # update alpha, I_up, I_low
         alpha[i_0] = a1
         alpha[j_0] = a2
-
         I[:, i_0] = I_up_low_membership(a1, y1)
         I[:, j_0] = I_up_low_membership(a2, y2)
 
-        # 4.) berechne neues i_0 und j_0  für maximally violating pair und dazu b_up, b_low
+        # needed for checking if algorithm got stuck
+        i_0_old = i_0
+        j_0_old = j_0
 
-
-        # now choose i_0,j_0 for next iteration and compute b_up, b_low for these i_0,j_0
-
+        # choose i_0,j_0 for next iteration and compute b_up, b_low for these i_0, j_0
 
         I_up = I[0]
         I_low = I[1]
+        ind_up = v[I_up]
+        ind_low = v[I_low]
+        i_0s = np.argmin(fcache[ind_up])
 
-        i_0_old = i_0
-        j_0_old = j_0
-        b_up = float('inf')
-        b_low = -b_up
+        i_0 = ind_up[i_0s]
+        b_up = fcache[i_0]
 
-        for i in range(l):
-            if I_up[i] == 1 and fcache[i] < b_up:
-                b_up = fcache[i]
-                i_0 = i
-            if I_low[i] == 1 and fcache[i] > b_low:
-                b_low = fcache[i]
-                j_0 = i
+        j_0s = np.argmax(fcache[ind_low])
+        j_0 = ind_low[j_0s]
+        b_low = fcache[j_0]
 
+        # check if algorithm got stuck
         if i_0 == i_0_old and j_0 == j_0_old:
             if stuckcache == [i_0, j_0]:
                 stuckcounter += 1
@@ -150,21 +141,10 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         else:
             stuckcounter = 0
 
+        # iter += 1
 
-                # if i_0_old == i_0 and j_0_old == j_0:
-                # cycle += 1
-                # print('Achtung, Paar zweimal hintereinander violating:')
-                # print('i_0 =',i_0,'j_0 =',j_0)
-                # print('alpha[i_0] =',alpha[i_0], 'alpha[j_0] =',alpha[j_0])
-                # print('alpha[i_0]_old =',alph1, 'alpha[j_0]_old =',alph2)
-                # print('fcache[i_0] =',fcache[i_0], 'fcache[j_0] =', fcache[j_0])
-                # print('fcache[i_0]_old =',F(i_0,alpha_old), 'fcache[j_0]_old =', F(j_0,alpha_old))
-                # print('b_up - b_low =', b_up - b_low)
-
-                # iter += 1
-
+    # optional safety measure in order to make sure the solution is not tol-violating
     if violationcheckyesorno == 'yes':
-
         b_up = float('inf')
         b_low = -b_up
         for i in range(l):
@@ -180,7 +160,5 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
     else:
         violationstring = 'no violation requested'
 
-        # print('Anzahl wiederholt dasselbe Paar =', cycle)
-    # print('iter =', iter)
 
     return {'solution': alpha, 'violationcheck': violationstring}

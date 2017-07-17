@@ -23,6 +23,7 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
     l = label.shape[0]
     alpha = np.zeros(l)
     I = np.zeros((2, l), dtype=bool)
+    # I[0] = I_up, I[1] = I_low
     I[0] = label == 1
     I[1] = label == -1
     b_up = -1
@@ -36,18 +37,16 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
     # cache the F values in order to apply an efficient update rule after each step
     fcache = -label.astype(float)
 
-    # iteration counter that is crucial for this algorithm, do not remove!
-    iter = 0
+    # iteration counter, not needed for the functioning of this particular algorithm
+    # iter = 0
 
     # two objects that will help determine if the algorithm got stuck, see the very bottom of the while loop
     stuckcache = -np.ones(2)
     stuckcounter = 0
-    # cycle = 0
 
-    # Since kernel evaluations are expensive, we initialize here an array in order to store all results of such
-    # evaluations and a list to store the line numbers of the stored Gramian matrix lines
-    K = np.empty([l, l])
-    rows_calc = []
+
+    Ki0 = np.empty(l)
+    Kj0 = np.empty(l)
 
     while (b_up < b_low - tol):
 
@@ -66,24 +65,24 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
             L = max(0, alph2 + alph1 - C)
             H = min(C, alph2 + alph1)
 
-        if iter == 0:
-            if i_0 not in rows_calc:
-                if kernel_identifier == 'standard scalar product':
-                    K[i_0] = np.dot(data, data[i_0])
-                else:
-                    K[i_0] = [kernel(data[i], data[i_0]) for i in range(l)]
-                rows_calc.append(i_0)
 
-        if j_0 not in rows_calc:
-            if kernel_identifier == 'standard scalar product':
-                K[j_0] = np.dot(data, data[j_0])
-            else:
-                K[j_0] = [kernel(data[i], data[j_0]) for i in range(l)]
-            rows_calc.append(j_0)
 
-        k11 = K[i_0, i_0]
-        k12 = K[i_0, j_0]
-        k22 = K[j_0, j_0]
+        if kernel_identifier == 'standard scalar product':
+            Ki0 = np.dot(data, data[i_0])
+        else:
+            Ki0 = np.array([kernel(data[i], data[i_0]) for i in range(l)])
+
+
+
+        if kernel_identifier == 'standard scalar product':
+            Kj0 = np.dot(data, data[j_0])
+        else:
+            Kj0 = np.array([kernel(data[i], data[j_0]) for i in range(l)])
+
+
+        k11 = Ki0[i_0]
+        k12 = Ki0[j_0]
+        k22 = Kj0[j_0]
 
         eta = 2 * k12 - k11 - k22
 
@@ -103,7 +102,7 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         # update fcache
         fac_i_0 = y1 * (a1 - alph1)
         fac_j_0 = y2 * (a2 - alph2)
-        fcache = fcache + fac_i_0 * K[i_0] + fac_j_0 * K[j_0]
+        fcache = fcache + fac_i_0 * Ki0 + fac_j_0 * Kj0
 
         # update alpha, I_up, I_low
         alpha[i_0] = a1
@@ -114,7 +113,6 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         # needed for checking if algorithm got stuck
         i_0_old = i_0
         j_0_old = j_0
-        ('inf')
 
         # choose i_0,j_0 for next iteration and compute b_up, b_low for these i_0, j_0
 
@@ -122,40 +120,14 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         I_low = I[1]
         ind_up = v[I_up]
         ind_low = v[I_low]
-
         i_0s = np.argmin(fcache[ind_up])
+
         i_0 = ind_up[i_0s]
         b_up = fcache[i_0]
 
-
-        if i_0 not in rows_calc:
-            if kernel_identifier == 'standard scalar product':
-                K[i_0] = np.dot(data, data[i_0])
-            else:
-                K[i_0] = [kernel(data[i], data[i_0]) for i in range(l)]
-            rows_calc.append(i_0)
-
-        b_low = np.max(fcache[ind_low])
-
-
-        # indices of vectors in I_low which are violating w.r.t. i_0
-        ind = np.multiply(I_low, fcache > b_up)
-        ind_viol = v[np.multiply(I_low, fcache > b_up)]
-
-        # compute j_0 using second order information in this algorithm
-        bsq_vec = (fcache[ind] - fcache[i_0]) ** 2
-        if kernel_identifier == 'standard scalar product':
-            M = np.einsum('ij,ji->i', data[ind], np.transpose(data[ind]))
-            N = (K[i_0])[ind]
-            a_vec = K[i_0, i_0] + M - 2 * N
-        else:
-            M = np.array([kernel(data[j], data[j]) for j in ind_viol])
-            N = K[i_0][ind]
-            a_vec = K[i_0, i_0] + M - 2 * N
-        c_vec = np.divide(bsq_vec, a_vec)
-        j_0s = np.argmax(c_vec)
-
-        j_0 = ind_viol[j_0s]
+        j_0s = np.argmax(fcache[ind_low])
+        j_0 = ind_low[j_0s]
+        b_low = fcache[j_0]
 
         # check if algorithm got stuck
         if i_0 == i_0_old and j_0 == j_0_old:
@@ -168,7 +140,7 @@ def smo(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = N
         else:
             stuckcounter = 0
 
-        iter += 1
+        # iter += 1
 
     # optional safety measure in order to make sure the solution is not tol-violating
     if violationcheckyesorno == 'yes':

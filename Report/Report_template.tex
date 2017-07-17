@@ -31,6 +31,7 @@
 % Umgebungen für Definitionen, Sätze, usw.
 % Es werden Sätze, Definitionen etc innerhalb eines Chapters mit
 % 1.1, 1.2 etc durchnummeriert, ebenso die Gleichungen mit (1.1), (1.2) ..
+
 \newtheorem{Satz}{Satz}[section]
 \newtheorem{Lemma}[Satz]{Lemma}
 \newtheorem{Korollar}[Satz]{Korollar}
@@ -39,7 +40,8 @@
 \newtheorem{Definition}[Satz]{Definition}
 \newtheorem{Beispiel}[Satz]{Beispiel}
 \newtheorem{Bemerkung}[Satz]{Bemerkung}
-                    
+\newtheorem{algorithm}{Algorithm}    
+              
 \numberwithin{equation}{section} 
 
 % einige Abkuerzungen
@@ -114,7 +116,7 @@
 
 
 \section{Solving the optimization problem with SMO}
-%\input{our_own_SMO.tex}
+\input{our_own_SMO.tex}
 
 
 \section{Multiclass Classification Problem}\label{ch_multiclass}
