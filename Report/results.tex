@@ -9,4 +9,34 @@ Where do we bring in cross validation?
 
 General Conclusions? Difficulties?
 
-We only tried the first approach since as just mentioned the compute time for the second one was simply too high for us considering that we have a very large amount of training data. In the One-vs-All results were very very disappointing. In the case of a linear as well as a Gaussian kernel ... In the linear case this can be explained by the fact that our training data was simply not linearly seperable. 
+For One-vs-All linear almost no correct result, barycenters improved things a bit (maybe take out of table if its too bad...)
+
+One-vs-All Gauss: a lot better, I think especially more training data was helpful
+
+ECOC 
+
+Table for overview of results 
+
+Each time we tested with ... 500? test points. The given training data set that we had was very large, so we always had data to test our results that was not used for training. 
+
+Talk about average compute times. Or did Paul already say something about that beforehand? 
+
+Talk about the 1500 issue or better not?
+
+
+% Ich hätte ganz links oben gerne eine schräge Linie
+% \lft{n}\rt{k}}
+% \lft{classifier}\rt{no of training points}	
+\begin{table}[ht!]
+	\centering
+	\caption{Overview Results}
+	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
+\multicolumn{1}{|p{2cm}|}{no of training points classifier} & \multicolumn{1}{p{2cm}|}{One-vs-One uniquely classfied correctly linear} & \multicolumn{1}{p{2cm}|}{One-vs-One w/ barycenters linear} & \multicolumn{1}{p{2cm}|}{One-vs-One uniquely classfied correctly Gaussian} &  \multicolumn{1}{p{2cm}|}{One-vs-One w/ barycenters Gaussian} & \multicolumn{1}{p{2cm}|}{ECOC linear} & \multicolumn{1}{p{2cm}|}{ECOC Gaussian} \\ \hline \hline
+	500	&  &  &  &  &  &  \\ \hline
+	1000	&  &  &  &  &  &  \\ \hline
+	2000	&  &  &  &  &  &  \\ \hline
+	5000	&  &  &  &  &  &  \\ \hline
+	10000	&  &  &  &  &  &  \\ \hline
+	\end{tabular}
+\end{table}
+
