@@ -37,6 +37,8 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
 
     # iter = 0
     # cycle = 0
+    stuckcache = -np.ones(2)
+    stuckcounter = 0
 
     # kostenintensiv bei SMO mit maximal violating pairs ist das ständige Neuberechnen der kompletten Kernel-Matrix;
     # initialisiere daher lxl - Nullmatrix und speichere alle bisher berechneten kernel-Berechnung ab
@@ -137,6 +139,16 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
             if I_low[i] == 1 and fcache[i] > b_low:
                 b_low = fcache[i]
                 j_0 = i
+
+        if i_0 == i_0_old and j_0 == j_0_old:
+            if stuckcache == [i_0, j_0]:
+                stuckcounter += 1
+                if stuckcounter > 5000:
+                    raise ValueError('Algorithm got stuck on one violating pair and was hence highly unlikely to terminate; increase "null" in smo')
+            else:
+                stuckcache = [i_0, j_0]
+        else:
+            stuckcounter = 0
 
 
                 # if i_0_old == i_0 and j_0_old == j_0:

@@ -1,7 +1,26 @@
 import numpy as np
 
 
+
 def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier = None):
+
+    def F(i, alpha):
+        out = - label[i]
+        for j in range(l):
+            out = out + alpha[j] * label[j] * kernel(data[i], data[j])
+        return out
+
+    def I_membership_no(a, y):
+        if 0 < a < C:
+            return 0
+        elif a == 0 and y == 1:
+            return 1
+        elif a == C and y == -1:
+            return 2
+        elif a == C and y == 1:
+            return 3
+        else:
+            return 4
 
     def I_up_low_membership(alpha_i, label_i):
 
@@ -51,7 +70,6 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
     K = np.empty([l, l])
 
     rows_calc = []
-
 
     while (b_up < b_low - tol):
 
@@ -181,7 +199,6 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
         j_0 = ind_viol[j_0s]
 
 
-
         if i_0 == i_0_old and j_0 == j_0_old:
             if stuckcache == [i_0, j_0]:
                 stuckcounter += 1
@@ -192,6 +209,10 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
         else:
             stuckcounter = 0
 
+
+
+
+
                     # for j in v[ind]:
         # bsq = (fcache[j] - fcache[i_0])**2
         # a = K[i_0,i_0] + kernel(data[j],data[j]) - 2* K[i_0,j]
@@ -200,7 +221,12 @@ def smo_new(data, label, C, kernel, tol, violationcheckyesorno,kernel_identifier
         # b_j_0 = c
         # j_0 = j
 
-        iter += 1
+        #iter += 1
+        #if iter%50 == 0:
+            #print('i_0,j_0 =', i_0,j_0)
+            #print('alpha[i_0],alpha[j_0] =',alpha[i_0],alpha[j_0])
+            #print('I_membership_no(alpha[i_0],label[i_0]),I_membership_no(alpha[j_0],label[j_0]) =',I_membership_no(alpha[i_0],label[i_0]),I_membership_no(alpha[j_0],label[j_0]) )
+            #print(eta)
 
     if violationcheckyesorno == 'yes':
 
