@@ -9,7 +9,7 @@ from scipy.optimize import minimize
 from scipy.spatial.distance import hamming
 
 
-def gaussian_kernel(x, y, sigma):
+def gaussian_kernel(x, y, sigma=.1):
     return np.exp(-sigma*np.linalg.norm(x-y)**2)
 
 def scalar_product(v1,v2):
@@ -126,10 +126,12 @@ def ecoc(labeled_data, labels, kernel=scalar_product, penalty_list=[10]*15, list
     
     # compute barycenters of the points of each label
     barycenters = np.zeros((10,np.shape(labeled_data)[1]));
+    
     for i in range(10):
         #ind = labels == i
         ind = [j for j,k in enumerate(labels) if k == i]
         barycenters[i] = np.mean(labeled_data[ind], axis=0)
+    
     
     # define code_word matrix, the ith row corresponds to the number i
     # each column corresponds to a classifier that will have to be trained
