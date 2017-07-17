@@ -1,6 +1,6 @@
 import numpy as np
 import sklearn as sk
-from smo_wss2_new_fettesK import smo_new
+from smo_wss2 import smo_new
 import scipy
 import functools
 import pickle
