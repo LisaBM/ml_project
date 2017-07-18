@@ -30,7 +30,7 @@ Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F
 \begin{equation}\label{tau_KKT}
 b_{up}(\alpha) \geq b_{low}(\alpha) - \tau.
 \end{equation}
-It holds that any algorithm of the following form terminates after finitely many steps:
+It holds (see \cite{Keerthi2002} for a proof) that any algorithm of the following form terminates after finitely many steps:
 \begin{algorithm}[General SMO type algorithm]\label{GSMO} Let $\tau > 0$. Initialize $k = 0 $ and $\alpha^0 = 0$ and generate iterates $\alpha^k$, $k \in \mathbb{N},$ as follows: 
 \begin{enumerate}
 \item If $\alpha^k$ satisfies (\ref{tau_KKT}), stop. Else choose a $\tau$-violating pair $(i,j) \in I_{up}(\alpha^k) \times I_{low}(\alpha^k)$.
@@ -38,7 +38,7 @@ It holds that any algorithm of the following form terminates after finitely many
 \item Set $k := k+1$, $\alpha^k := \alpha^{\text{new}}$ and go to Step 1.
 \end{enumerate}
 \end{algorithm} 
-Platt's original Sequential Minimal Optimization (SMO) algorithm (actually, we are referring to "Modification 1" by \cite{keerthisvm}[KEERTHI ET AL. SVM, PAPER]), although ground-breaking, has two weaknesses. Firstly, its pseudocode description is quite complex, making it hard to judge whether or not one has implemented it as intended by its originators. Secondly, by trying to avoid computational effort in the \textit{while} steps, it actually runs much longer than all other algorithms we have implemented or tested.\\\\
+Platt's original Sequential Minimal Optimization (SMO) algorithm (actually, we are referring to "Modification 1" by \cite{KeerthiShevade}), although ground-breaking, has two weaknesses. Firstly, its pseudocode description is quite complex, making it hard to judge whether or not one has implemented it as intended by its originators. Secondly, by trying to avoid computational effort in the \textit{while} steps, it actually runs much longer than all other algorithms we have implemented or tested.\\\\
 In short, Platt's SMO tries first to ensure that
 \[
 b_{up,I_0}(\alpha) := \max_{i \in I_0(\alpha)} F_i(\alpha) \geq \min_{j \in I_0} F_j(\alpha) =: b_{low,I_0}(\alpha),
@@ -47,7 +47,7 @@ where $I_0(\alpha) := \{ i  \mid  0 < \alpha_i < C \}$ is the index set of ``int
 Therefore, the algorithm does not resolve a \textit{maximally} violating pair, by which we mean some 
 \[
 (i_{up},i_{low}) \in \argmin_{i \in I_{up}}F_i(\alpha) \times \argmax_{j \in I_{low}}F_j(\alpha).
-\] To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in [PAPER VON FAN, CHEN ...] and a rewarding investment, see benchmarking section. \\\\
+\] To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in \cite{FanChenLin} and a rewarding investment, see benchmarking section. \\\\
 Parametrize the 1D Problem in Step 2 of Algorithm \ref{GSMO} as
 \[
 \alpha_i(t^*) = \alpha^k_i + y_i t*, \quad \alpha_j(t^*) = \alpha^k_j - y_j t*, \quad \alpha_n(t^*) = \alpha^k_n \text{ for } k \notin \{i,j\}
@@ -56,7 +56,7 @@ for some optimal feasible $t^* \in \R$ and set $\Phi(t) = d(\alpha(t))$ as the 1
 \begin{equation}
 F_i(\alpha) - F_j(\alpha) = \Phi'(0),
 \end{equation}
-so WSS1 corresponds to a steepest descent approach aiming for a substantial decrease in $d$. Since this uses only first order information, a second ``Working Set Selection 2'' (WSS2) strategy is proposed in [PAPER VON FAN, CHEN ...], which (at relatively low extra cost) employs second order information to choose a violating pair almost optimally, optimally meaning maximizing the descent of $d$ in the SMO step.
+so WSS1 corresponds to a steepest descent approach aiming for a substantial decrease in $d$. Since this uses only first order information, a second ``Working Set Selection 2'' (WSS2) strategy is proposed in \cite{FanChenLin}, which (at relatively low extra cost) employs second order information to choose a violating pair almost optimally, optimally meaning maximizing the descent of $d$ in the SMO step.
 
 \subsection{Benchmarking different SMOs}
 

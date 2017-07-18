@@ -10,20 +10,7 @@ Error-correcting output codes (ECOC) are easiest to explain considering a concre
 	\centering
 	\caption{Error Correcting Output Codes}
 	\label{Codewords}
-	\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|}
-		\hline
-		Class	& $f_0$ & $f_1$ & $f_2$ & $f_3$ & $f_4$ & $f_5$ & $f_6$ & $f_7$ & $f_8$ & $f_9$ & $f_{10}$ & $f_{11}$ & $f_{12}$ & $f_{13}$ & $f_{14}$ \\ \hline \hline
-		0	& 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 & -1 & 1 \\ \hline
-		1	& -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 \\ \hline
-		2	& 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 \\ \hline
-		3	& -1 & -1 & 1 & 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 \\ \hline
-		4	& 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
-		5	& -1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 \\ \hline
-		6	& 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 \\ \hline
-		7	& -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
-		8	& 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 \\ \hline
-		9	& -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 \\ \hline
-	\end{tabular}
+	\input{tabular_codewords}
 \end{table}  
 
 The code words are chosen such that their Hamming distance (i.e.\ the number of entries where they differ) is maximized. In our case, each code word has a Hamming distance of at least seven to any of the others strings. Now, when one wants to label an unknown data point, each of the classifiers assigns it a label and one eventually gets an output string of 15 digits. We classify the data point according the code word it has the least Hamming distance to. The name \textit{Error Correcting Output Codes} is derived from the fact that for example any three classifiers can misclassify a data point and the algorithm still outputs the correct result. Depending on the difficulty of the problem one could choose more or less classifiers and hece in- or decrease the Hamming distance of the set of code words. We took this idea as well as the code words given above from \cite{dietterich1995solving}.
