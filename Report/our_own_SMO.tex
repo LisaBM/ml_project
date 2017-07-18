@@ -1,11 +1,11 @@
 \subsection{Some theory on SMO convergence}
-Let $\alpha$ be some feasible variable for Problem (\ref{dual_problem}). Defining
-\begin{align}
+Let $\alpha$ be some feasible variable for Problem (\ref{eq:dual_problem}). Defining
+\begin{align*}
 \mathcal{L}(\alpha,\delta,\mu,\beta) &:= \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha - \delta^T\alpha + \mu^T(\alpha - C) - \beta \alpha^T y \\
 F_i(\alpha) &:= y_i (\partial_i d)(\alpha) = \sum_{i = 1}^l \alpha_j y_j k(x_i,x_j) - y_i \quad \text{for} \quad i = 1,\ldots,l,
-\end{align}
+\end{align*}
 by careful computation we find that the KKT optimality conditions
-\begin{equation}
+\begin{equation*}
 \left.
 \begin{aligned}
 \nabla_{\alpha} \mathcal{L}(\alpha^*,\delta^*,\mu^*,\beta^*) &= 0\\
@@ -16,25 +16,25 @@ by careful computation we find that the KKT optimality conditions
 \alpha_i^* &\text{ feasible}
 \end{aligned}
 \right\} \text{for all } i \in \{1,\ldots,l\}
-\end{equation}
-for a solution of Problem (\ref{dual_problem}) (which are sufficient, since Q is spsd), are equivalent to the -- much simpler looking -- pairwise condition
-\begin{equation}\label{equiv_KKT}
+\end{equation*}
+for a solution of Problem (\ref{eq:dual_problem}) (which are sufficient, since Q is spsd), are equivalent to the -- much simpler looking -- pairwise condition
+\begin{equation*}\label{equiv_KKT}
 b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha),
-\end{equation}
+\end{equation*}
 where $I_{up}(\alpha)$ and $I_{low}(\alpha)$ are subsets of the index set $\{1,\ldots,l\}$ defined by
-\begin{align}
+\begin{align*}
 I_{up}(\alpha) &:= \{ i  \mid  \alpha_i < C \text{ and } y_i = 1 \text{ or } \alpha_i > 0 \text{ and } y_i = -1 \} \\
 I_{low}(\alpha) &:= \{ j \mid \alpha_j < C \text{ and } y_j = -1 \text{ or } \alpha_j > 0 \text{ and } y_j = 1 \}.
-\end{align} 
-Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfils (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
-\begin{equation}\label{tau_KKT}
+\end{align*} 
+Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{eq:dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfils (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
+\begin{equation*}\label{tau_KKT}
 b_{up}(\alpha) \geq b_{low}(\alpha) - \tau.
-\end{equation}
+\end{equation*}
 It holds (see \cite{Keerthi2002} for a proof) that any algorithm of the following form terminates after finitely many steps:
 \begin{algorithm}[General SMO type algorithm]\label{GSMO} Let $\tau > 0$. Initialize $k = 0 $ and $\alpha^0 = 0$ and generate iterates $\alpha^k$, $k \in \mathbb{N},$ as follows: 
 \begin{enumerate}
 \item If $\alpha^k$ satisfies (\ref{tau_KKT}), stop. Else choose a $\tau$-violating pair $(i,j) \in I_{up}(\alpha^k) \times I_{low}(\alpha^k)$.
-\item Minimize $d$ varying only $\alpha^k_i$ and $\alpha^k_j$, leaving $\alpha^k_n$ fixed for $n \notin \{i,j\}$ and respecting the constraints of Problem (\ref{dual_problem}) to obtain $\alpha^{\text{new}}$.
+\item Minimize $d$ varying only $\alpha^k_i$ and $\alpha^k_j$, leaving $\alpha^k_n$ fixed for $n \notin \{i,j\}$ and respecting the constraints of Problem (\ref{eq:dual_problem}) to obtain $\alpha^{\text{new}}$.
 \item Set $k := k+1$, $\alpha^k := \alpha^{\text{new}}$ and go to Step 1.
 \end{enumerate}
 \end{algorithm} 
@@ -53,15 +53,38 @@ Parametrize the 1D Problem in Step 2 of Algorithm \ref{GSMO} as
 \alpha_i(t^*) = \alpha^k_i + y_i t*, \quad \alpha_j(t^*) = \alpha^k_j - y_j t*, \quad \alpha_n(t^*) = \alpha^k_n \text{ for } k \notin \{i,j\}
 \]
 for some optimal feasible $t^* \in \R$ and set $\Phi(t) = d(\alpha(t))$ as the 1D objective function. Then actually
-\begin{equation}
+\begin{equation*}
 F_i(\alpha) - F_j(\alpha) = \Phi'(0),
-\end{equation}
+\end{equation*}
 so WSS1 corresponds to a steepest descent approach aiming for a substantial decrease in $d$. Since this uses only first order information, a second ``Working Set Selection 2'' (WSS2) strategy is proposed in \cite{FanChenLin}, which (at relatively low extra cost) employs second order information to choose a violating pair almost optimally, optimally meaning maximizing the descent of $d$ in the SMO step.
 
 \subsection{Benchmarking different SMOs}
 
-We implemented Platt's SMO, WSS1 in two variations and WSS2. The first variation of WSS1 caches all computations of Gramian matrix rows in order to avoid expensive double computations. The other variant of WSS1 is forgetful. Taking the scikit-learn SVC algorithm as a 5th (tough) competitor, we tested the algorithms at hand for the first classifier of ECOC for a range of numbers of MNIST training points.
+We implemented Platt's SMO, WSS1 in two variations and WSS2. The first variation of WSS1 caches all computations of Gramian matrix rows in order to avoid expensive double computations. The other variant of WSS1 is forgetful. Taking the scikit-learn SVC algorithm as a 5th (tough) competitor, we tested the algorithms at hand for the first classifier of ECOC for a range of numbers of MNIST training points. \\\\
+As can be seen, the speediest algorithms are, in decreasing order: scikit-learn, WSS1 with caching, WSS2 with caching, WSS1 without caching, Platt's SMO. 
+We suppose that the strange kink in the WSS1 with caching line of Figure \ref{bench_ssp} is due to multicore features of Python kicking in at 1800 training points. The benchmarks were carried out on a Windows 7 x64 machine with an Intel i5 quad core processor at 4 GHz and 16 GB of RAM.\\\\
+The polynomial order of all algorithms is 2, judging from the loglog plot in Figure \ref{bench_gauss_loglog} and a linear least squares fit of the loglog data for WSS1 with caching. The latter also yielded that our WSS1 with caching takes about 5.8 times as long as scikit-learn.
 
-%\includegraphics[height = 10cm]{benchplot.pdf}
+\begin{figure}[h!]
+	\includegraphics[width=0.8\textwidth, center]{benchplot_gauss.pdf}
+	\caption{Run times for different SMO algorithms, Gaussian kernel}
+	\label{bench_gauss}
+\end{figure}
 
-We see that the speediest algorithms are, in decreasing order: scikit-learn, WSS1 with caching, WSS2 with caching, WSS1 without caching, Platt's SMO. The polynomial order of all algorithms is 2, judging by the loglog plot and a linear least squares fit. The latter also yielded that our WSS1 with caching takes about 5.8 times as long as scikit-learn.
+\begin{figure}[h!]
+	\includegraphics[width=0.8\textwidth, center]{benchplot_ssp.pdf}
+	\caption{Run times for different SMO algorithms, standard scalar product}
+	\label{bench_ssp}
+\end{figure}
+
+\begin{figure}[h!]
+	\includegraphics[width=0.8\textwidth, center]{benchplot_gauss_loglog.pdf}
+	\caption{loglog plot of run times, Gaussian kernel}
+	\label{bench_gauss_loglog}
+\end{figure}
+
+
+
+
+
+\newpage
