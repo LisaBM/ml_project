@@ -1,36 +1,21 @@
-When choosing ... many training points and .... many testing points our algorithm was correct in ... of the cases. Include things here...?
+This is the largest programming project any one of has ever worked on and neither of us had done much with Python before or had any other machine learning experience. So at any given time there was always a great variety of difficulties at hand. And because we implemented everything ourselves the problem could be literally anywhere, from misunderstanding the pseudocode we used, over float and integer division or git merging issues to ... But because that every little success was a source of joy which grew with every working block of code we managed to compile.
+\\
+\\
+The overall structure of our program looks as follows...(sorry havent had time yet) 
+\\
+I couldn't excatly find where we do cross validation? would have only needed it if we had less training data?
+\\
+\\
+We trained our SVMs with a linear and a Gaussian kernel and with different numbers training points. Our given data set included $42 000$ training points. We never used all of them for training because it simply exceeded our available compute power. But from the table below we can see that it would probably not have improved our results considerably or might even have worsened them. And this way we always had engouh labeled data to test and verify our results with. In the table you can find the results of the different multi-class classifiers. For the One-vs-All approach we give numbers for how many labels were found correctly with and without using additional classification by location of the barycenters, so that one can really see how many uniquely classified data points are labeled correctly. The percentages are derived from always testing with $1000$ data points that were of course not used for training beforehand. Unsurprisingly ECOC had longer run times than the One-vs-All classifier, it has to train $15$ instead of only $10$ and the computation with the Gaussian kernel took longer than with the linear kernel, which was also to be expected because of its higher complexity (more detail?). For $10 000$ training points ECOC with linear kernel took $1$h $16$ min and ECOC with gaussian kernel took $2$ h $26$ min for training.  
 
+As expected from theoretical considerations the Error-Correcting Output Codes performed better than the One-vs-All classification for training sets of any size. However we were surprised how well One-vs-All with the gaussian kernel worked in the end. Every picture of a hand-written digit gets turned into a vector of size $784$ ($=28^2$), it was not clear that the output data would be anywhere close to being linearly separable so we were also suprised to see the linear classifiers working at all, especially in the first case were not a single ambiguity or mistake could be corrected. 
 
-Linear and Gaussian.
-
-In general ECOC?
-
-Where do we bring in cross validation?
-
-General Conclusions? Difficulties?
-
-For One-vs-All linear almost (<5 \%) no correct result, barycenters improved things a lot  (maybe take out of table if its too bad...)
-
-One-vs-All Gauss: a lot better, I think especially more training data was helpful
-
-ECOC 
-
-Table for overview of results 
-
-Each time we tested with ... 1000 (!!!!!!!!!!!) test points. The given training data set that we had was very large, so we always had data to test our results that was not used for training. 
-
-Talk about average compute times. Or did Paul already say something about that beforehand? 
-
------>
-Sorry, haven't really tracked compute times consistently. Although I can say this much: 
+How do we explain the decrese?
+ 
 ECOC linear 10000 points: 1 h 16 min
 ECOC Gauss 10000 points: 2 h 26 min
-So we can say at least how long the longest jobs took. Is that, combined with an extra benchmark section only focused on the comparison of the 5 SMOs applied to only the first of the  15 ECOC classifiers, both kernels, enough?
-
-
-Talk about the 1500 issue or better not?
-----> No. I resolved the issue and I suppose it was a strange coincidence that the problem occurred specifically at 1500 training points. Will talk about the cause of this problem and its resolution in the SMO section.
-
+So we can say at least how long the longest jobs took. Is that, combined with an extra benchmark section only focused on the comparison of the 5 SMOs applied to only the first of the  15 ECOC classifiers, both kernels, enough? 
+----> Is what wrote enough otherwise please add on :) 
 
 % Ich hätte ganz links oben gerne eine schräge Linie
 % \lft{n}\rt{k}}
@@ -40,11 +25,12 @@ Talk about the 1500 issue or better not?
 	\caption{Overview Results}
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
 \multicolumn{1}{|p{2cm}|}{no of training points classifier} & \multicolumn{1}{p{2cm}|}{One-vs-All uniquely classfied correctly linear} & \multicolumn{1}{p{2cm}|}{One-vs-All w/ barycenters linear} & \multicolumn{1}{p{2cm}|}{One-vs-All uniquely classfied correctly Gaussian} &  \multicolumn{1}{p{2cm}|}{One-vs-All w/ barycenters Gaussian} & \multicolumn{1}{p{2cm}|}{ECOC linear} & \multicolumn{1}{p{2cm}|}{ECOC Gaussian} \\ \hline \hline
-	500	& 659 & 741 & 754 & 833 & 747 & 874 \\ \hline
-	1000	& 682 & 750 & 843 & 890 & 787 & 927 \\ \hline
-	2000	& 702 & 764 & 898 & 919 & 778 & 943 \\ \hline
-	5000	& 700 & 738 & 889 & 916 & 820 & 952 \\ \hline
-	10000	& 646 & 675 & 880 & 906 & 825 & 954 \\ \hline
+500	& 65.9\% & 74.1\% & 75.4\% & 83.3\% & 74.2\% & 87.4\% \\ \hline
+1000	& 68.2\% & 75.0\% & 84.3\% & 89.0\% & 78.0\% & 92.7\% \\ \hline
+2000	& 70.2\% & 76.4\% & 89.8\% & 91.9\% & 77.8\% & 94.3\% \\ \hline
+5000	& 70.0\% & 73.8\% & 889\% & 91.6\% & 82.0\% & 95.2\% \\ \hline
+10000	& 64.6\% & 67.5 & 88.0\% & 90,6\% & 82.5\% & 95.4\% \\ \hline
 	\end{tabular}
 \end{table}
 
+We have learned a lot in the past 4 weeks and although this program does not (yet?) win us a kaggle competition we are in general (very) satisfied with the overall outcome of the project and especially with our success rate of over $95$\%.
