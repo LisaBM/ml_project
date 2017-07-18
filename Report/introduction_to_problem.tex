@@ -24,9 +24,10 @@ f(x) = \sign \left(w^T\Phi(x) + b\right).
 
 Approaching binary support vector machines from a more technical side, we find that they aim to find the maximum margin hyperplane in the feature space, i.e. the goal is to maximize the margin while softly penalizing points that lie on the wrong side of the boundary or inside the margin \cite{Bishop2006}. Dualizing this optimization problem, we obtain the following equivalent quadratic program:
 
-\begin{eqnarray}
-	\text{minimize} & d(\alpha) := \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha \label{eq:dual_problem} \\ 
-	\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,	\nonumber
+\begin{eqnarray}\label{eq:dual_problem}
+	\text{minimize} & d(\alpha) := \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha  \\ 
+	\nonumber
+	\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,
 \end{eqnarray}
 
 where $\alpha$ is the dual variable, $Q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C = 1/(2 \lambda l)$ for the penalty term $\lambda$ of the soft margin SVM.
