@@ -66,24 +66,76 @@
 \end{frame}
 
 
-
 \begin{frame}
-  \frametitle{\titleB}
-	\visible<2>{
-		\begin{figure}[h]
-		\includegraphics[width=1\textwidth]{../Plots_linear_mit_Pauls_SVM}
-		\caption{Visualizing the concept of linear soft-margin SVMs}
-		\end{figure}
-	}
-	\visible<1,3->{
-	blabla test
-	}
+	\frametitle{\titleB}
+	We want to use the concept of SVMs
+	\begin{itemize}
+		\item \textbf{Problem I:} SVMs are binary classifiers $\leftrightarrow$ we have 10 classes
+		\item We focus on two different approaches: 
+		\begin{enumerate}
+			\item One-vs-All 
+			\item Error-Correcting Output Codes
+		\end{enumerate}
+		\item \textbf{Problem II:} Need to solve optimization problem
+	\end{itemize}
+
 \end{frame}
 
 
 \begin{frame}
-  \frametitle{\titleB}
-	
+	\frametitle{\titleB}
+	\begin{enumerate}
+		\item Implement solver for our QP
+		\begin{itemize}
+			\item 3 versions
+		\end{itemize}
+		\item Implement basic SVM algorithm
+		\begin{itemize}
+			\item linear kernel / Gaussian kernel
+			\item Parameter optimization
+		\end{itemize}
+		\item Combine individual SVMs in different ways
+		\begin{itemize}
+			\item 3 versions
+		\end{itemize}
+		\item Validate and compare results 
+		\
+	\end{enumerate}
+\end{frame}
+
+
+
+\begin{frame}
+	\frametitle{\titleB}
+
+	\begin{figure}[h]
+		\includegraphics[width=1\textwidth]{../Plots_linear_mit_Pauls_SVM}
+		\caption{Visualizing the concept of linear soft-margin SVMs}
+	\end{figure}
+
+
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{\titleB}
+	\begin{enumerate}
+		\item Implement solver for our QP
+		\begin{itemize}
+			\item 3 versions
+		\end{itemize}
+		\item Implement basic SVM algorithm
+		\begin{itemize}
+			\item linear kernel / Gaussian kernel
+			\item Parameter optimization
+		\end{itemize}
+		\item Combine individual SVMs in different ways
+		\begin{itemize}
+			\item 3 versions
+		\end{itemize}
+		\item Validate and compare results 
+		\
+	\end{enumerate}
 \end{frame}
 
 
@@ -95,41 +147,42 @@
 
 \begin{frame}
   \frametitle{\titleD}
-%	\textbf{\alert{Standard Modell}}
 	\begin{itemize}
-		\item \textbf{Problem:} SVMs are binary classifiers $\leftrightarrow$ we have 10 classes
-		\item we focus on two different approaches: 
-		\begin{enumerate}
-			\item One-vs-All 
-			\item Error-Correcting Output Codes
-		\end{enumerate}
+		\item Choose $k$ groups of the classes
+		\item Train $k$ SVMs that separate each group from the rest
+		\item Compare outcome to what would arise for each digit.
+		\item \textbf{\alert{Problem:}} Points may not be classified uniquely.
+		\item Handle overlappings by minimizing distance to barycenters
 	\end{itemize}
+
+	\begin{figure}[h]
+		\includegraphics[width=.6\textwidth]{onevsall_examplegraphic}
+		%\caption{Visualization of the One-vs-All approach}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\titleD}
+	\textbf{\alert{1. One-vs-All}}\\
+	\textbf{Idea:} For each $i \in \{0,1,\ldots,9\}$, train an SVM that separates class $i$ from the rest
+  	\begin{table}[ht!]
+		\centering
+		\scalebox{0.8}{\input{tabular_OneVsAll}}
+	\end{table} 
 \end{frame}
 
 
 
 \begin{frame}
   \frametitle{\titleD}
-	\textbf{\alert{1. One-Vs-All}}
-\end{frame}
-
-
-
-\begin{frame}
-  \frametitle{\titleD}
-
-	%\textbf{These 1:
-	%}
 	\textbf{\alert{2. Error Correcting Output Codes}}\\
-	\textbf{Idea:} Combine 15 different SVMs, each one trained on a distinct relabeling of the data.
+	\textbf{Idea:} Relabeling with large Hamming distance according to:
 	\begin{table}[ht!]
 		\centering
-		\label{Codewords}
-		\scalebox{0.8}{
-		\input{tabular_codewords}
-		}
+		\scalebox{0.8}{\input{tabular_codewords}}
 	\end{table}  
 \end{frame}
+
 
 
 \begin{frame}
@@ -138,7 +191,6 @@
 		\centering
 		\scalebox{0.7}{
 		\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
-			%\input{tabular_results_head}
 			\multicolumn{1}{|p{1.8cm}|}{\vspace*{.7 cm}\# training points} &
 			\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} uniquely classfied, linear} &
 			\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} with bary- centers, linear} &
@@ -153,7 +205,13 @@
 	\end{table}
 \end{frame}
 
-
+\begin{frame}
+  \frametitle{\titleE}
+	\begin{figure}[h]
+		\includegraphics[width=1\textwidth]{mnist_really_bad_images}
+		\caption{Visualizing very illegible digits}
+	\end{figure}
+\end{frame}
 
 \end{document}
 
