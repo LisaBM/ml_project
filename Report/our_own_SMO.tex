@@ -60,6 +60,7 @@ so WSS1 corresponds to a steepest descent approach aiming for a substantial decr
 
 \subsection{Implementational issues}
 One particular source of trouble was that WSS1 and WSS2 sometimes got stuck on a single violating pair, which is extremely puzzling because -- in theory -- a violating pair $(i,j)$ of indices can no longer be violating after an SMO step has been taken. It turned out that the precise definitions of $I_{up}$ and $I_{low}$ had to be softened so that numerical errors do not stop the algorithm from recognizing that $(\alpha^{new}_i,\alpha^{new}_j$ has hit the boundary of $[0,C]^2$. This is crucial for steps where the box constraints are active for $(\alpha^{new}_i,\alpha^{new}_j)$. For further details, please see the commented code we provided. 
+
 \subsection{Benchmarking different SMOs}
 
 We implemented Platt's SMO, WSS1 in two variations and WSS2. The first variation of WSS1 caches all computations of Gramian matrix rows in order to avoid expensive double computations. The other variant of WSS1 is forgetful. Taking the scikit-learn SVC algorithm as a 5th (tough) competitor, we tested the algorithms at hand for the first classifier of ECOC for a range of numbers of MNIST training points. \\\\
@@ -67,19 +68,19 @@ As can be seen, the speediest algorithms are, in decreasing order: scikit-learn,
 The polynomial order of all algorithms is 2, judging from the loglog plot in Figure \ref{bench_gauss_loglog} and a linear least squares fit of the loglog data for WSS1 with caching. The latter also yielded that our WSS1 with caching takes about 5.8 times as long as scikit-learn.
 
 \begin{figure}[h!]
-	\includegraphics[width=0.7\textwidth, center]{benchplot_gauss.pdf}
+	\includegraphics[width=1\textwidth, center]{benchplot_gauss.pdf}
 	\caption{Run times for different SMO algorithms, Gaussian kernel}
 	\label{bench_gauss}
 \end{figure}
 
 \begin{figure}[h!]
-	\includegraphics[width=0.7\textwidth, center]{benchplot_ssp.pdf}
+	\includegraphics[width=1\textwidth, center]{benchplot_ssp.pdf}
 	\caption{Run times for different SMO algorithms, standard scalar product}
 	\label{bench_ssp}
 \end{figure}
 
 \begin{figure}[h!]
-	\includegraphics[width=0.7\textwidth, center]{benchplot_gauss_loglog.pdf}
+	\includegraphics[width=1\textwidth, center]{benchplot_gauss_loglog.pdf}
 	\caption{loglog plot of run times, Gaussian kernel}
 	\label{bench_gauss_loglog}
 \end{figure}

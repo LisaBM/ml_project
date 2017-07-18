@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6350 64-bit) (preloaded format=xelatex 2017.7.18)  18 JUL 2017 23:16
+This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6350 64-bit) (preloaded format=xelatex 2017.7.18)  19 JUL 2017 00:29
 entering extended mode
 **./Presentation.tex
 (Presentation.tex
@@ -827,7 +827,11 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\\' on input line 36.
 
-(Presentation.aux)
+(Presentation.aux
+
+LaTeX Warning: Label `bench_gauss' multiply defined.
+
+)
 \openout1 = `Presentation.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
@@ -1063,128 +1067,181 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
 
 ]
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10.95> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 164.
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 166.
  [8
 
-] [9
+]
+
+! LaTeX Error: Something's wrong--perhaps a missing \item.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.180 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+[9
 
 ] [10
 
 ]
-File: onevsall_examplegraphic.png Graphic file (type QTm)
 
-<use  "onevsall_examplegraphic.png" >
-Overfull \vbox (6.955pt too high) detected at line 210
+! Package xkeyval Error: `center' undefined in families `Gin'.
+
+See the xkeyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.213 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: images_for_presentation/benchplot_gauss.pdf Graphic file (type QTm)
+<use  "images_for_presentation/benchplot_gauss.pdf" >
+Overfull \vbox (8.54564pt too high) detected at line 213
  []
 
 [11
 
-] (tabular_OneVsAll.tex) [12
+]
 
-] (tabular_codewords.tex)
-Overfull \hbox (2.76181pt too wide) in paragraph at lines 232--232
- [] 
+! Package xkeyval Error: `center' undefined in families `Gin'.
+
+See the xkeyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.225 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+File: images_for_presentation/benchplot_gauss_loglog.pdf Graphic file (type QTm
+)
+<use  "images_for_presentation/benchplot_gauss_loglog.pdf" >
+Overfull \vbox (20.28564pt too high) detected at line 225
+ []
+
+[12
+
+]
+File: onevsall_examplegraphic.png Graphic file (type QTm)
+ <use  "onevsall_examplegraphic.png" >
+Overfull \vbox (6.955pt too high) detected at line 242
  []
 
 [13
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 uniquely
- []
+] (tabular_OneVsAll.tex) [14
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 class-fied,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 cen-ters,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 uniquely
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 class-fied,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 centers,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 ECOC,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 ECOC,
- []
-
-(tabular_results_body_presentation.tex)
-Overfull \hbox (8.05685pt too wide) in paragraph at lines 254--254
- [] 
- []
-
-[14
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 uniquely
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 class-fied,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 cen-ters,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 uniquely
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 class-fied,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-\T1/kurierlc/m/n/12 centers,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 ECOC,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 254--254
-[]\T1/kurierlc/m/n/12 ECOC,
- []
-
-(tabular_results_body_presentation.tex)
-Overfull \hbox (8.05685pt too wide) in paragraph at lines 254--254
+] (tabular_codewords.tex)
+Overfull \hbox (2.76181pt too wide) in paragraph at lines 264--264
  [] 
  []
 
 [15
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 uniquely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 class-fied,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 cen-ters,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 uniquely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 class-fied,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 centers,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 ECOC,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 ECOC,
+ []
+
+(tabular_results_body_presentation.tex)
+Overfull \hbox (8.05685pt too wide) in paragraph at lines 286--286
+ [] 
+ []
+
+[16
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 uniquely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 class-fied,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 cen-ters,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 uniquely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 class-fied,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+\T1/kurierlc/m/n/12 centers,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 ECOC,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--286
+[]\T1/kurierlc/m/n/12 ECOC,
+ []
+
+(tabular_results_body_presentation.tex)
+Overfull \hbox (8.05685pt too wide) in paragraph at lines 286--286
+ [] 
+ []
+
+[17
+
+]
 File: mnist_really_bad_images.png Graphic file (type QTm)
- <use  "mnist_really_bad_images.png" > [16
+ <use  "mnist_really_bad_images.png" > [18
 
 ]
 \tf@nav=\write6
@@ -1196,19 +1253,23 @@ File: mnist_really_bad_images.png Graphic file (type QTm)
 \tf@snm=\write8
 \openout8 = `Presentation.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 264.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 264.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 296.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 296.
  (Presentation.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 264.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 264.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 296.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 296.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 20717 strings out of 427834
- 366780 string characters out of 3152470
- 474946 words of memory out of 3000000
- 24249 multiletter control sequences out of 15000+200000
- 91045 words of font info for 69 fonts, out of 3000000 for 9000
+ 20732 strings out of 427834
+ 367075 string characters out of 3152470
+ 475154 words of memory out of 3000000
+ 24260 multiletter control sequences out of 15000+200000
+ 103731 words of font info for 73 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 56i,15n,55p,798b,602s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,15n,55p,798b,675s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Presentation.pdf (16 pages).
+Output written on Presentation.pdf (18 pages).
