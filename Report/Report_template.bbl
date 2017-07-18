@@ -32,6 +32,12 @@
 \bibitem[kag]{kaggel}
 \url{https://www.kaggle.com/c/digit-recognizer/data}
 
+\bibitem[KG02]{Keerthi2002}
+\textsc{Keerthi}, S.S. ; \textsc{Gilbert}, E.G.:
+\newblock Convergence of a Generalized SMO Algorithm for SVM Classifier Design.
+\newblock {In: }\emph{Machine Learning} 46 (2002), Jan, Nr. 1, S. 351--360. --
+\newblock ISSN 1573--0565
+
 \bibitem[KSBM01]{KeerthiShevade}
 \textsc{Keerthi}, S.~S. ; \textsc{Shevade}, S.~K. ; \textsc{Bhattacharyya}, C.
   ; \textsc{Murthy}, K. R.~K.:
