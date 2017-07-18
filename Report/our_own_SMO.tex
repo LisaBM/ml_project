@@ -1,17 +1,17 @@
-Let $\alpha$ be some feasible variable for Problem (\ref{dual_problem}). Defining
+Let $\alpha$ be some feasible variable for Problem (\ref{eq:dual_problem}). Defining
 \begin{equation}
 F_i(\alpha) := y_i (\partial_i d)(\alpha) = \sum_{i = 1}^l \alpha_j y_j k(x_i,x_j) - y_i \quad \text{for} \quad i = 1,\ldots,l,
 \end{equation}
-by careful computation we find that the KKT optimality conditions for a solution of Problem (\ref{dual_problem}) (which are both necessary and sufficient, since Q is spsd), are equivalent to the -- much simpler looking -- pairwise condition
+by careful computation, we find that the KKT optimality conditions for a solution of Problem (\ref{eq:dual_problem}) (which are both necessary and sufficient since Q is spsd), are equivalent to the -- much simpler looking -- pairwise condition
 \begin{equation}\label{equiv_KKT}
-b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha),
+b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha)
 \end{equation}
-where $I_{up}(\alpha)$ and $I_{low}(\alpha)$ are subsets of the index set $\{1,\ldots,l\}$ defined by
+where $I_{up}(\alpha)$ and $I_{low}(\alpha)$ are subsets of the index set $\{1,\ldots,l\}$, defined by
 \begin{align}
 I_{up}(\alpha) &:= \{ i  \mid  \alpha_i < C \text{ and } y_i = 1 \text{ or } \alpha_i > 0 \text{ and } y_i = -1 \} \\
 I_{low}(\alpha) &:= \{ j \mid \alpha_j < C \text{ and } y_j = -1 \text{ or } \alpha_j > 0 \text{ and } y_j = 1 \}.
 \end{align} 
-Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfils (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
+Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{eq:dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfils (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
 \begin{equation}\label{tau_KKT}
 b_{up}(\alpha) \geq b_{low}(\alpha) - \tau.
 \end{equation}
@@ -19,7 +19,7 @@ It holds that any algorithm of the following form terminates after finitely many
 \begin{algorithm}[General SMO type algorithm]\label{GSMO} Let $\tau > 0$. Initialize $k = 0 $ and $\alpha = 0$ and generate iterates $\alpha^k$, $k \in \mathbb{N},$ as follows: 
 \begin{enumerate}
 \item If $\alpha^k$ satisfies (\ref{tau_KKT}), stop. Else choose a $\tau$-violating pair $(i,j) \in I_{up}(\alpha^k) \times I_{low}(\alpha^k)$.
-\item Minimize $d$ varying only $\alpha^k_i$ and $\alpha^k_j$, leaving $\alpha^k_n$ fixed for $n \notin \{i,j\}$ and respecting the constraints of Problem (\ref{dual_problem}) to obtain $\alpha^{\text{new}}$.
+\item Minimize $d$ varying only $\alpha^k_i$ and $\alpha^k_j$, leaving $\alpha^k_n$ fixed for $n \notin \{i,j\}$ and respecting the constraints of Problem (\ref{eq:dual_problem}) to obtain $\alpha^{\text{new}}$.
 \item Set $k := k+1$, $\alpha^k := \alpha^{\text{new}}$ and go to Step 1.
 \end{enumerate}
 \end{algorithm} 
@@ -28,8 +28,8 @@ In short, Platt's SMO tries first to ensure that
 \[
 b_{up,I_0}(\alpha) := \max_{i \in I_0(\alpha)} F_i(\alpha) \geq \min_{j \in I_0} F_j(\alpha) =: b_{low,I_0}(\alpha),
 \]
-where $I_0(\alpha) := \{ i  \mid  0 < \alpha_i < C \}$ is the index set of ``interior'' $\alpha_i$s. A cache of only the $F_i$ for $i \in I_0$ is kept until this is achieved. Then all $i \in \{0,\ldots l\}$ are examined, and the cache of correctly stored $F_i$s (along with the indices $\widetilde{i_{up}}$ and $\widetilde{i_{low}}$ indicating where the so far most extreme $F_i$ occur) is extended as long as an $\alpha_j$ is found such that $(j,\widetilde{i_{low}})$ or $(\widetilde{i_{up}},j)$ is violating, depending on whether $j \in I_{up}$ or $j \in I_{low}$. Therefore, the algorithm does not resolve a \textit{maximally} violating pair, by which we mean some 
-\[
-i_{up},i_{low}) \in \argmin_{i \in I_{up}}F_i(\alpha) \times \argmax_{j \in I_{low}}F_j(\alpha).
-\] To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in [PAPER VON FAN, CHEN ...] and a rewarding investment, see benchmarking section. \\\\
+where $I_0(\alpha) := \{ i  \mid  0 < \alpha_i < C \}$ is the index set of ``interior'' $\alpha_i$'s. A cache of only the $F_i$ for $i \in I_0$ is kept until this is achieved. Then all $i \in \{0,\ldots l\}$ are examined, and the cache of correctly stored $F_i$'s (along with the indices $\widetilde{i_{up}}$ and $\widetilde{i_{low}}$ indicating where the so far most extreme $F_i$ occur) is extended as long as an $\alpha_j$ is found such that $(j,\widetilde{i_{low}})$ or $(\widetilde{i_{up}},j)$ is violating, depending on whether $j \in I_{up}$ or $j \in I_{low}$. Therefore, the algorithm does not resolve a \textit{maximally} violating pair, by which we mean some 
+\begin{equation*}
+(i_{up},i_{low}) \in \underset{i \in I_{up}}{\argmin}F_i(\alpha) \times \underset{j \in I_{low}}{\argmax}F_j(\alpha).
+\end{equation*} To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in [PAPER VON FAN, CHEN ...] and a rewarding investment, see benchmarking section. \\\\
 Since, actually, for a pair $(i,j)$, the term $F_i(\alpha) - F_j(\alpha)$ is the derivative at $\alpha$ of the 1D problem in Step 2 of Algorithm \ref{GSMO}, WSS1 corresponds to a steepest descent approach aiming for a substantial decrease in $d$. Since this uses only first order information, a second ``Working Set Selection 2'' (WSS2) strategy is proposed in [PAPER VON FAN, CHEN ...], which (at relatively low extra cost) employs second order information to choose a violating pair almost optimally, optimally meaning maximizing the descent of $d$ in the SMO step.

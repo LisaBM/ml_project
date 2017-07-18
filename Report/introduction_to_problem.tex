@@ -15,7 +15,7 @@ From this notion, one particular problem arises: The SVM is a binary classifier,
 
 We can summarize this binary classification problem in the objective of finding a decision function of the form
 \begin{equation*}
-f(x) = \operatorname{sgn}\left(w^T\Phi(x) + b\right).
+f(x) = \sign \left(w^T\Phi(x) + b\right).
 \end{equation*}
 
 
@@ -23,17 +23,17 @@ f(x) = \operatorname{sgn}\left(w^T\Phi(x) + b\right).
 
 
 Approaching binary support vector machines from a more technical side, we find that they aim to find the maximum margin hyperplane in the feature space, i.e. the goal is to maximize the margin while softly penalizing points that lie on the wrong side of the boundary or inside the margin \cite{Bishop2006}. Dualizing this optimization problem, we obtain the following equivalent quadratic program:
-\begin{equation}\label{dual_problem}
-\begin{array}{rl}
-\text{minimize} & d(\alpha) := \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha \\
-\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,
-\end{array}
-\end{equation}
-where $\alpha$ is the dual variable, $q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C = 1/2 \lambda l$ for the penalty term $\lambda$ of the soft margin SVM.
+
+\begin{eqnarray}
+	\text{minimize} & d(\alpha) := \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha \label{eq:dual_problem} \\ 
+	\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,	\nonumber
+\end{eqnarray}
+
+where $\alpha$ is the dual variable, $Q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C = 1/(2 \lambda l)$ for the penalty term $\lambda$ of the soft margin SVM.
 After finding the optimal solution $\alpha^*$ of this program, we can formulate the resulting decision function as
 \begin{equation*}
 f(x) = \operatorname{sgn}\left(\sum_{i=1}^{l}\alpha^*_i y_i k(x_i,x_j)+b\right).
 \end{equation*}
 Note that only data points $x_i$ with $\alpha_i \neq 0$ appear in the decision function. Those points are called \textit{support vectors}.\\
-By analysing primal, dual and the corresponding KKT conditions, we find that any $x_i$ with $\alpha_i = C$ was correctly classified and lies exactly on the margin boundary, and any $x_i$ with $0<\alpha_i < C$ lies either inside the margin or on the wrong side of the margin. Additionally, any data points $x_i$ on the (correct) margin boundary must satisfy $y_i f(x_i) = 1$. We can use this property to find the parameter $b$ \cite{Bishop2006}.
+By analysing primal, dual and the corresponding KKT conditions, we find that any $x_i$ with $\alpha_i = C$ was correctly classified and lies exactly on the margin boundary, and any $x_i$ with $0<\alpha_i < C$ lies either inside the margin or on the wrong side of the margin. Additionally, any data points $x_i$ on the (correct) margin boundary must satisfy $y_i f(x_i) = 1$. We can use this property to find the parameter $b$ \cite{Bishop2006}. Hence, if we succeed to find an optimal solution to \eqref{eq:dual_problem}, we have everything we need to construct the decision function.
 
