@@ -16,3 +16,48 @@ number of correctly classified labels: 59 out of 100
 number of correctly classified labels by one vs all: 36 out of 100
  
  
+kernel: gaussian_kernel
+number of training points: 500
+number of test points: 1000
+counter one Vs all classified 782
+counter barycenter classified 218
+number of correctly classified labels: 833 out of 1000
+number of correctly classified labels by one vs all: 754 out of 1000
+ 
+ 
+kernel: gaussian_kernel
+number of training points: 1000
+number of test points: 1000
+counter one Vs all classified 861
+counter barycenter classified 139
+number of correctly classified labels: 890 out of 1000
+number of correctly classified labels by one vs all: 843 out of 1000
+ 
+ 
+kernel: gaussian_kernel
+number of training points: 2000
+number of test points: 1000
+counter one Vs all classified 914
+counter barycenter classified 86
+number of correctly classified labels: 919 out of 1000
+number of correctly classified labels by one vs all: 898 out of 1000
+ 
+ 
+kernel: gaussian_kernel
+number of training points: 5000
+number of test points: 1000
+counter one Vs all classified 900
+counter barycenter classified 100
+number of correctly classified labels: 916 out of 1000
+number of correctly classified labels by one vs all: 889 out of 1000
+ 
+ 
+kernel: scalar_product
+number of training points: 10000
+number of test points: 1000
+counter one Vs all classified 687
+counter barycenter classified 313
+number of correctly classified labels: 675 out of 1000
+number of correctly classified labels by one vs all: 646 out of 1000
+ 
+ 
