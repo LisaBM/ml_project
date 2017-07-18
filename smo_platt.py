@@ -123,7 +123,7 @@ def smo(data,label,C,kernel,tol,violationcheckyesorno, kernel_identifier = None)
         I[:,i1] =  I_membership(a1,y1)
         I[:,i2] =  I_membership(a2,y2)
     
-        # update fcache[i] here for i in I_0: a[0:3][:,4:9]
+        # update fcache[i] here for i in I_0:
         ind_0 = (np.nonzero(I[0,:]))[0]
         
         #avoid for loop in case of standard scalar product kernel

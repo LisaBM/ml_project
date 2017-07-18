@@ -8,5 +8,6 @@ I was expecting a `,' or a `}'---line 3 of file Report_bib.bib
  :  date = {14.07.2017},
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "keerthisvm"
 Warning--to sort, need author or key in kaggel
 (There was 1 error message)
