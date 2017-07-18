@@ -7,7 +7,7 @@ The Support Vector Machine (SVM) is a binary classifier that aims to find the ma
 & & \sum_{i = 1}^{l}\alpha_i - \frac{1}{2} \sum_{i, j = 1}^{l}\alpha_i  \alpha_j y_i y_j k(x_i, x_j)
 \end{aligned}
 \end{equation*}
-with the dual variable $\alpha$, kernel function $k$ and penalty $C$.
+where $\alpha$ is the dual variable, $q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C = 1/2 \lambda l$ for the penalty term $\lambda$ of the soft margin SVM.
 After finding the optimal solution $\alpha^*$ of this program, we can formulate the resulting decision function as
 \begin{equation*}
 f(x) = \operatorname{sgn}\left(\sum_{i=1}^{l}\alpha^*_i y_i k(x_i,x_j)+b\right).
