@@ -115,11 +115,11 @@
   \frametitle{\titleC}
   \begin{itemize}
   	\item The primal Soft Margin SVM QP is equivalent to solving the \textbf{\alert{dual problem:}}
-  	\begin{eqnarray*}\label{eq:dual_problem}
+  	\begin{eqnarray}\label{eq:dual_problem}
   	\text{minimize} & d(\alpha) := \frac{1}{2} \alpha^T Q \alpha - 1^T \alpha  \\ 
   	\nonumber
   	\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,
-  	\end{eqnarray*}
+  	\end{eqnarray}
   	where $q_{ij} = y_i y_j k(x_i,x_j)$, $x_i$ the data, $y_i$ the labels, $k$ the kernel function and $C$ the penalty term
   	\item Since Q is spsd, satisfying the KKT conditions guarantees a solution to (\ref{eq:dual_problem}).
   \end{itemize}
