@@ -8,12 +8,12 @@ The overall structure of our program looks as follows. We wrote our own \texttt{
 	\caption{\textbf{Overview Results of Correctly Classified Digits}}
 	\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|} \hline
 		\multicolumn{1}{|p{1.8cm}|}{\vspace*{.7 cm}\# training points} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.05 cm}One-vs-All uniquely classfied, linear} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.15 cm}One-vs-All with barycenters, linear} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.05 cm}One-vs-All uniquely classfied, gaussian} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.0 cm}One-vs-All with barycenters, gaussian} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.7 cm}ECOC, linear} &
-		\multicolumn{1}{p{1.8cm}|}{\vspace*{.7 cm}ECOC, gaussian} \\ \hline \hline
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} uniquely classfied, linear} &
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} with bary- centers, linear} &
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} uniquely classfied, Gaussian} &
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{0 cm}\hbox{One-vs-All} with bary-centers, Gaussian} &
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{.7 cm}ECOC, \hbox{linear}} &
+		\multicolumn{1}{p{1.8cm}|}{\vspace*{.7 cm}ECOC, Gaussian} \\ \hline \hline
 		500	& 65.9\% & 74.1\% & 75.4\% & 83.3\% & 74.2\% & 87.4\% \\ \hline
 		1000	& 68.2\% & 75.0\% & 84.3\% & 89.0\% & 78.0\% & 92.7\% \\ \hline
 		2000	& 70.2\% & 76.4\% & 89.8\% & 91.9\% & 77.8\% & 94.3\% \\ \hline
@@ -23,10 +23,10 @@ The overall structure of our program looks as follows. We wrote our own \texttt{
 \end{table}
 
 \smallskip
-Our given data set included $42$ $000$ handwritten digits. We never used all of them for training because this large amount of training data simply exceeded our available compute power. But from the table below we can see that it would probably not have improved our results considerably or might even have worsened them. And this way we always had engouh labeled data to test and verify our results with. In the table you can find the results of the different multi-class classifiers. For the One-vs-All approach we give numbers for how many labels were found correctly with and without using additional classification by location of the barycenters, so that one can really see how many uniquely classified data points are labeled correctly. The percentages are derived from always testing with $1000$ data points that were of course not used for training beforehand. Unsurprisingly ECOC had longer run times than the One-vs-All classifier, it has to train $15$ instead of only $10$ and the computation with the Gaussian kernel took longer than with the linear kernel, which was also to be expected because of its higher complexity (more detail?). For $10 000$ training points ECOC with linear kernel took $1$h $16$ min and ECOC with gaussian kernel took $2$ h $26$ min for training.  
+Our given data set included 42,000 handwritten digits. We never used all of them for training because this large amount of training data simply exceeded our available compute power. But from the table below we can see that it would probably not have improved our results considerably or might even have worsened them. And this way we always had engouh labeled data to test and verify our results with. In the table you can find the results of the different multi-class classifiers. For the One-vs-All approach we give numbers for how many labels were found correctly with and without using additional classification by location of the barycenters, so that one can really see how many uniquely classified data points are labeled correctly. The percentages are derived from always testing with 1,000 data points that were of course not used for training beforehand. Unsurprisingly ECOC had longer run times than the One-vs-All classifier, it has to train $15$ instead of only $10$ and the computation with the Gaussian kernel took longer than with the linear kernel, which was also to be expected because of its higher complexity (more detail?). For 10,000 training points ECOC with linear kernel took $1$h $16$ min and ECOC with gaussian kernel took $2$ h $26$ min for training.  
 
 \smallskip
-As expected from theoretical considerations the Error-Correcting Output Codes performed better than the One-vs-All classification for training sets of any size. However we were surprised how well One-vs-All with the gaussian kernel worked in the end. Every picture of a hand-written digit gets turned into a vector of size $784$  ($=28^2$), it was not clear that the output data would be anywhere close to being linearly separable so we were also suprised to see the linear classifiers working at all, especially in the first case were not a single ambiguity or mistake could be corrected. With an increase of training points the results first increase across the board. The performance of classifiers with linear kernel then often starts to decrease, sometimes drastically, with training sets of size $2000$. We assume that this phenomenon occurs because the more training data we have the harder it gets to linearly separate it. 
+As expected from theoretical considerations the Error-Correcting Output Codes performed better than the One-vs-All classification for training sets of any size. However we were surprised how well One-vs-All with the gaussian kernel worked in the end. Every picture of a hand-written digit gets turned into a vector of size $784$  ($=28^2$), it was not clear that the output data would be anywhere close to being linearly separable so we were also suprised to see the linear classifiers working at all, especially in the first case were not a single ambiguity or mistake could be corrected. With an increase of training points the results first increase across the board. The performance of classifiers with linear kernel then often starts to decrease, sometimes drastically, with training sets of size 2,000. We assume that this phenomenon occurs because the more training data we have the harder it gets to linearly separate it. 
 
 % Ich hätte ganz links oben gerne eine schräge Linie
 % \lft{n}\rt{k}}
