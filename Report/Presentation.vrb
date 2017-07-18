@@ -1,26 +1,4 @@
 \frametitle{Multi-Class Classification}
 
-%\textbf{These 1:
-%}
-\textbf{\alert{2. Error Correcting Output Codes}}
-\textbf{Idea: }
-
-\begin{table}[ht!]
-^^I\centering
-^^I\label{Codewords}
-^^I\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
-^^I^^I\hline
-^^I^^IClass^^I& $f_0$ & $f_1$ & $f_2$ & $f_3$ & $f_4$ & $f_5$ & $f_6$ & $f_7$ & $f_8$ & $f_9$ & $f_{10}$ & $f_{11}$ & $f_{12}$ & $f_{13}$ & $f_{14}$ \\ \hline \hline
-^^I^^I0^^I& 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 & -1 & 1 \\ \hline
-^^I^^I1^^I& -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 \\ \hline
-^^I^^I2^^I& 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 \\ \hline
-^^I^^I3^^I& -1 & -1 & 1 & 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 \\ \hline
-^^I^^I4^^I& 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
-^^I^^I5^^I& -1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 \\ \hline
-^^I^^I6^^I& 1 & -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 \\ \hline
-^^I^^I7^^I& -1 & -1 & -1 & 1 & 1 & 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 \\ \hline
-^^I^^I8^^I& 1 & 1 & -1 & 1 & -1 & 1 & 1 & -1 & -1 & 1 & -1 & -1 & -1 & 1 & 1 \\ \hline
-^^I^^I9^^I& -1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 & 1 & -1 & 1 & -1 & -1 & 1 & 1 \\ \hline
-^^I\end{tabular}
-\end{table}
+\textbf{\alert{1. One-Vs-All}}
 

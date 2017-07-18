@@ -11,7 +11,14 @@
 %\usepackage[main=german]{babel}  
 %\usemintedstyle{trac}
 \usepackage[utf8]{inputenc}
-%\usepackage[sfdefault]{ClearSans} %% option 'sfdefault' activates Clear Sans as the default text font
+
+
+%Font1:
+%\usepackage{sansmathfonts}
+%\usepackage[T1]{fontenc}
+%\renewcommand*\familydefault{\sfdefault}
+%Font2:
+\usepackage[light,condensed,math]{kurier}
 \usepackage[T1]{fontenc}
 
 
@@ -38,124 +45,52 @@
   \begin{enumerate}
         \item Introduction \& Problem Statement \item Support Vector Machines (SVM) \item Sequential Minimal Optimization (SMO) \item Multi-Class Classification \item Results \& Conclusions
       \end{enumerate}
-
-
-%  The \emph{mtheme} is a Beamer theme with minimal visual noise inspired by the
-%  \href{https://github.com/hsrmbeamertheme/hsrmbeamertheme}{\textsc{hsrm} Beamer
-%  Theme} by Benjamin Weiss.
-
- % Enable the theme by loading
-
-%  \begin{minted}[fontsize=\small]{latex}
-%    \documentclass{beamer}
-%    \usetheme{m}
-%  \end{minted}
-
-%  Note, that you have to have Mozilla's \emph{Fira Sans} font and XeTeX
-%  installed to enjoy this wonderful typography.
 \end{frame}
 
 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Introduction \& Problem Statement}
-  \textbf{Idee}
-      \begin{itemize}
-        \item Existenz von fair handelnden Individuen blablablablabla \item Soziale Ziele sind nicht für alle Menschen gleichgültig \item Infragestellung der Annahmen im Standardmodellvvvvvvvvvv
-      \end{itemize}
-  %\begin{minted}[fontsize=\small]
-  %{latex}
-  %  Es gibt nicht nur egoistische Menschen, 
-  %  wie es die meisten ökonomischen Modelle annehmen, 
-  %  sondern auch solche die fair handeln
-  %  und denen soziale Ziele nicht gleichgültig sind
-  %\end{minted}
-   
-   \textbf{Motivation} 
-   
-   \begin{enumerate}
-        \item Handelsmacht wird  in Wettbewerbssituationen ausgenutzt,
-        in biliteralen Situationen nicht. 
-        \item Trittbrettfahrerei wird in freiwilligen Kooperationsspielen ausgenutzt.
-        Besteht allerdings die Möglichkeit, Trittbrettfahrer zu bestrafen, wird diese 
-        wahrgenommen auch wenn es kostspielig ist.
-      \end{enumerate}
-   
+\textbf{Main Goal:} train algorithm to recognize handwritten digits
 
-   
-   
-%  for which the \emph{mtheme} provides a nice progress indicator \ldots
+\begin{figure}[h]
+	\includegraphics[width=1\textwidth, center]{Digits2}
+	\caption{Visualization of eight of these images}
+\end{figure}
+
+\textbf{Data:}
+\begin{itemize}
+	\item 42,000 grayscale 
+\end{itemize}
 \end{frame}
 
 
 
 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Introduction \& Problem Statement}
 
-
-\textbf{\alert{Matthew Rabin (1993):}}
-\begin{itemize}
-\item People like to help those who are helping them, and to hurt those who are hurting them
-\item Reziprozität
-\end{itemize}
-
-\textbf{\alert{David K. Levine (1998):} }
-\begin{itemize}
-
-\item Menschen sind zu einem gewissen Grad altruistisch oder gehässig
-\end{itemize}
-
-\textbf{\alert{Gary E. Bolton \& Axel Ockenfels (2000):}}
-\begin{itemize}
- \item Ähnlich wie Modell von FS(1999) basierend auf Ungleichheitsaversion 
-
-\end{itemize}
-
 \end{frame}
 
-\begin{frame}[fragile]
+
+\begin{frame}
 \frametitle{Support Vector Machines (SVM)}
 
-\begin{center}
-\textbf{Was ist fair?}
-\end{center}
-
- \begin{enumerate}
-        \item 2 Arten von Menschen: Egoisten \& Ungleichaverse (faire) Menschen
-        \item \emph{n} Spieler mit \emph{i}     \(\in \lbrace 1,...,n \rbrace\)
-        \item Vektor der monetären Auszahlungen:  \(x=x_1...,x_n\)       
-        \item Nutzenfunktion des Spielers \(i \in \lbrace 1,...,n \rbrace\) 
-       
-       \end{enumerate}
 \end{frame}
 
 
-\begin{frame}[fragile]
+\begin{frame}
 \frametitle{Support Vector Machines (SVM)}
 
-\begin{large}
-\begin{center} \(U_i(x) = x_i - \alpha_i \frac{1}{n-1} \sum\limits_{j\neq i}max \lbrace x_j - x_i, 0\rbrace - \beta_i \frac{1}{n-1} \sum\limits_{j\neq i} max \lbrace x_i - x_j, 0 \rbrace\)\end{center}    
-\end{large}
-
-\begin{center} es gilt: \(\beta_i \leq \alpha_i\ \)  \&  \( 0\leq\beta_i<1\) \end{center}
-
 \end{frame}
 
 
-\begin{frame}[fragile]
+\begin{frame}
 \frametitle{Sequential Minimal Optimization (SMO)}
 
-\textbf{Ablauf \& Annahmen}
-   \begin{itemize}
-        \item 2 Spieler (Proposer \& Responder) handeln um die Aufteilung eines festen Betrags (=1) \item Proposer kann dem Responder einen Anteil (share) s vorschlagen mit \(s \in [0,1]\) \item Akzeptanz: Proposer: \(s^P=1-s\) \&  Responder: \(s^R=s\) \item Ablehnung: Beide Spieler erhalten 0 \item Proposer = Spieler 1 \& Responder = Spieler 2
-      \end{itemize}
-
-
-
 \end{frame}
 
 
-\begin{frame}[fragile]
+\begin{frame}
 \frametitle{Multi-Class Classification}
 
 \textbf{Standard Modell}
@@ -167,28 +102,20 @@
 \item One-vs-All 
 \item Error Correcting Output Codes
 \end{enumerate}
-
 \end{frame}
+
+
 
 \begin{frame}[fragile]
 \frametitle{Multi-Class Classification}
 
 \textbf{\alert{1. One-Vs-All}}
-\begin{itemize}
-\item Auszahlungsdifferenz: \(x_1-x_2=\Pi_1 - \Pi_2 = (1-s) -s = {1-2s}\)
-
-\item Nutzenverlust durch Auszahlungsdifferenz für Spieler 2:  \(\alpha_2 (1-2s)\)
-
-\item Akzeptanz wenn \begin{large}\(s-\alpha_2 (1-2s) \geq 0 \Leftrightarrow \frac{s}{1-2s} \geq \alpha_2\)\end{large}
-
-\item Kleinster akzeptierter Anteil s*=\begin{Large} \(\frac{\alpha_2}{(1+2\alpha_2)}\)\end{Large} \(=s'(\alpha)\) % das ist die Annahmeschwelle/Akzeptanzschwelle
-
-
-\end{itemize} %hier kann ich die rechnung von Nikolas vorrechnen wennn jemand fragt
 
 \end{frame}
 
-\begin{frame}[fragile]
+
+
+\begin{frame}
 \frametitle{Multi-Class Classification}
 
 %\textbf{These 1:
