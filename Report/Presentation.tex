@@ -155,7 +155,7 @@
 	\begin{equation*}\label{equiv_KKT}
 	b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha),
 	\end{equation*}
-	where \begin{itemize}
+	where $I_{up}(\alpha), I_{low}(\alpha) \subset \{1,\ldots,l\}$: \begin{itemize}
 		\item $I_{up}(\alpha) := \{ i \mid  \alpha_i < C, y_i = 1 \text{ or } \alpha_i > 0, y_i = -1 \}$
 		\item $I_{low}(\alpha) := \{ j \mid \alpha_j < C, y_j = -1 \text{ or } \alpha_j > 0, y_j = 1 \}$.
 	
@@ -165,10 +165,11 @@
 \end{itemize}
 \end{frame}
 
+
 \begin{frame}
 \frametitle{\titleC}
 	\begin{itemize}
-		
+		\item Any algorithm of the following form converges after finitely many steps:
 	\end{itemize}
 	\begin{algorithm}[General SMO type algorithm]\label{GSMO} Let $\tau > 0$. Initialize $k = 0 $ and $\alpha^0 = 0$ and generate iterates $\alpha^k$, $k \in \mathbb{N},$ as follows: 
 		\begin{enumerate}
@@ -187,7 +188,7 @@
 	\begin{itemize}
 		\item WSS1: steepest possible \textbf{\alert{gradient}}
 		\[
-		(i_{up},i_{low}) \in \argmin_{i \in I_{up}(\alpha)}F_i(\alpha) \times \argmax_{j \in I_{low}(\alpha)}F_j(\alpha)
+		(i_{up},j_{low}) \in \argmin_{i \in I_{up}(\alpha)}F_i(\alpha) \times \argmax_{j \in I_{low}(\alpha)}F_j(\alpha)
 		\]
 		\item WSS2: maximal possible \textbf{\alert{decrease}} in $d$
 		\[
