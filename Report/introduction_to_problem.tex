@@ -11,7 +11,7 @@ Formally speaking, we have points  $\{x_i\}_{i=1}^l \subset \R^{28^2}$ with resp
 
 There are several ways to achieve this goal, one of which is the concept of {kernelized} support vector machines (SVM). The main idea behind this algorithm is to not only separate the data according to their labels, but also to do so in a way that is as reasonable as possible, i.e. we want to maximize the distance of the data to the decision boundary. We first transfer the data with a feature map $\Phi$ into a suitable feature space and look for a linear separation there.\\
 
-From this notion, two particular problems arise. Firstly how to solve the optimization problem of maximizing the margin (cf. Section 1.1 and 2) and secondly: The SVM is a binary classifier, i.e. it can only handle data that is divided into two classes. We therefore decided to compare different ways to deal with this obstacle, generalizing the application of SVMs to multiclass  classification problems (cf. Section \ref{ch_multiclass}). The methods that we considered all combine several instances of the SVM in its original form, classifying according to labels $\{\pm 1\}$.\\
+From this notion, two particular problems arise. Firstly, how to solve the optimization problem of maximizing the margin (cf. Section 1.1 and 2) and secondly: The SVM is a binary classifier, i.e. it can only handle data that is divided into two classes. We therefore decided to compare different ways to deal with this obstacle, generalizing the application of SVMs to multiclass  classification problems (cf. Section \ref{ch_multiclass}). The methods that we considered all combine several instances of the SVM in its original form, classifying according to labels $\{\pm 1\}$.\\
 
 We can summarize this binary classification problem in the objective of finding a decision function of the form
 \begin{equation*}
@@ -30,7 +30,7 @@ Approaching binary support vector machines from a more technical side, we find t
 	\text{s.t.} &  0 \leq \alpha \leq C  \quad \text{and} \quad 	y^T \alpha = 0,
 \end{eqnarray}
 
-where $\alpha$ is the dual variable, $Q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C = 1/(2 \lambda l)$ for the penalty term $\lambda$ of the soft margin SVM.
+where $\alpha$ is the dual variable, $Q_{ij} = y_i y_j k(x_i,x_j)$, $k$ the kernel function and $C $ the penalty term.
 After finding the optimal solution $\alpha^*$ of this program, we can formulate the resulting decision function as
 \begin{equation*}
 f(x) = \operatorname{sgn}\left(\sum_{i=1}^{l}\alpha^*_i y_i k(x_i,x_j)+b\right).

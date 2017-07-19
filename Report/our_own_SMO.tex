@@ -19,14 +19,14 @@ by careful manipulations we find that the KKT optimality conditions
 \end{equation*}
 for a solution of Problem (\ref{eq:dual_problem}) (which are sufficient, since Q is spsd), are equivalent to the -- much simpler looking -- pairwise condition
 \begin{equation*}\label{equiv_KKT}
-b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha),
+b_{up}(\alpha) := \min_{i \in I_{up}(\alpha)} F_i(\alpha) \geq \max_{j \in I_{low}(\alpha)} F_j(\alpha) =: b_{low}(\alpha).
 \end{equation*}
-where $I_{up}(\alpha)$ and $I_{low}(\alpha)$ are subsets of the index set $\{1,\ldots,l\}$ defined by
+Here $I_{up}(\alpha)$ and $I_{low}(\alpha)$ are subsets of the index set $\{1,\ldots,l\}$ defined by
 \begin{align*}
 I_{up}(\alpha) &:= \{ i  \mid  \alpha_i < C \text{ and } y_i = 1 \text{ or } \alpha_i > 0 \text{ and } y_i = -1 \} \\
 I_{low}(\alpha) &:= \{ j \mid \alpha_j < C \text{ and } y_j = -1 \text{ or } \alpha_j > 0 \text{ and } y_j = 1 \}.
 \end{align*} 
-Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{eq:dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfils (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
+Any pair $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ with $F_i(\alpha) < F_j(\alpha)$ is thus called a \textit{violating pair} and an objective equivalent to solving Problem (\ref{eq:dual_problem}) is to change $\alpha$ so as to remove all such violating pairs. Since a priori we do not know if the solution $\alpha^*$ fulfills (\ref{equiv_KKT}) strictly or not, we define, for some small tolerance $\tau > 0$, a $\tau$-violating pair as some $(i,j) \in I_{up}(\alpha) \times I_{low}(\alpha)$ which satisfies $F_i(\alpha) < F_j(\alpha) - \tau$ and require that all $\tau$-violating pairs be removed, or equivalently, 
 \begin{equation*}\label{tau_KKT}
 b_{up}(\alpha) \geq b_{low}(\alpha) - \tau.
 \end{equation*}
@@ -43,11 +43,11 @@ In short, Platt's SMO tries first to ensure that
 \[
 b_{up,I_0}(\alpha) := \max_{i \in I_0(\alpha)} F_i(\alpha) \geq \min_{j \in I_0} F_j(\alpha) =: b_{low,I_0}(\alpha),
 \]
-where $I_0(\alpha) := \{ i  \mid  0 < \alpha_i < C \}$ is the index set of ``interior'' $\alpha_i$s. A cache of only the $F_i$ for $i \in I_0$ is kept until this is achieved. Then all $i \in \{0,\ldots l\}$ are examined, and the cache of correctly stored $F_i$s (along with the indices $\widetilde{i_{up}}$ and $\widetilde{i_{low}}$ indicating where the so far most extreme $F_i$ occur) is extended as long as an $\alpha_j$ is found such that $(j,\widetilde{i_{low}})$ or $(\widetilde{i_{up}},j)$ is violating, depending on whether $j \in I_{up}$ or $j \in I_{low}$.\\\\
-Therefore, the algorithm does not resolve a \textit{maximally} violating pair, by which we mean some 
+where $I_0(\alpha) := \{ i  \mid  0 < \alpha_i < C \}$ is the index set of ``interior'' $\alpha_i$. A cache of only the $F_i$ for $i \in I_0$ is kept until this is achieved. Then all $i \in \{0,\ldots l\}$ are examined, and the cache of correctly stored $F_i$ (along with the indices $\widetilde{i_{up}}$ and $\widetilde{i_{low}}$ indicating where the so far most extreme $F_i$ occur) is extended as long as an $\alpha_j$ is found such that $(j,\widetilde{i_{low}})$ or $(\widetilde{i_{up}},j)$ is violating, depending on whether $j \in I_{up}$ or $j \in I_{low}$.\\\\
+Therefore, the algorithm does not remove a \textit{maximally} violating pair, by which we mean some 
 \[
 (i_{up},i_{low}) \in \argmin_{i \in I_{up}(\alpha)}F_i(\alpha) \times \argmax_{j \in I_{low}(\alpha)}F_j(\alpha).
-\] To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in \cite{FanChenLin} and a rewarding investment, see benchmarking section. \\\\
+\] To look up such a pair is the strategy of the ``Working Set Selection 1'' (WSS1) approach in \cite{FanChenLin} and a rewarding investment, see Section \ref{sec:benchmark} . \\\\
 Parametrize the 1D Problem in Step 2 of Algorithm \ref{GSMO} as
 \[
 \alpha_i(t^*) = \alpha^k_i + y_i t*, \quad \alpha_j(t^*) = \alpha^k_j - y_j t*, \quad \alpha_n(t^*) = \alpha^k_n \text{ for } k \notin \{i,j\}
@@ -59,13 +59,13 @@ F_i(\alpha) - F_j(\alpha) = \Phi'(0),
 so WSS1 corresponds to a steepest descent approach aiming for a substantial decrease in $d$. Since this uses only first order information, a second ``Working Set Selection 2'' (WSS2) strategy is proposed in \cite{FanChenLin}, which (at relatively low extra cost) employs second order information to choose a violating pair almost optimally: $i \in \argmin_{i \in I_{up}(\alpha)}F_i(\alpha)$ and $j \in I_{low}$ such that the decrease in $d$ produced by removing the violating pair is maximal.
 
 \subsection{Implementational issues}
-One particular source of trouble was that WSS1 and WSS2 sometimes got stuck on a single violating pair, which is extremely puzzling because -- in theory -- a violating pair $(i,j)$ of indices can no longer be violating after an SMO step has been taken. It turned out that the precise definitions of $I_{up}$ and $I_{low}$ had to be softened so that numerical errors do not stop the algorithm from recognizing that $(\alpha^{new}_i,\alpha^{new}_j$ has hit the boundary of $[0,C]^2$. This is crucial for steps where the box constraints are active for $(\alpha^{new}_i,\alpha^{new}_j)$. For further details, please see the commented code we provided. 
+One particular source of trouble was that WSS1 and WSS2 sometimes got stuck on a single violating pair, which is extremely puzzling because -- in theory -- a violating pair $(i,j)$ of indices can no longer be violating after an SMO step has been taken. It turned out that the precise definitions of $I_{up}$ and $I_{low}$ had to be softened so that numerical errors do not stop the algorithm from recognizing that $(\alpha^{new}_i,\alpha^{new}_j)$ has hit the boundary of $[0,C]^2$. This is crucial for steps where the box constraints are active for $(\alpha^{new}_i,\alpha^{new}_j)$.
 
-\subsection{Benchmarking different SMOs}
+\subsection{Benchmarking different SMOs} \label{sec:benchmark}
 
-We implemented Platt's SMO, WSS1 in two variations and WSS2. The first variation of WSS1 caches all computations of Gramian matrix rows in order to avoid expensive double computations. The other variant of WSS1 is forgetful. Taking the scikit-learn SVC algorithm as a 5th (tough) competitor, we tested the algorithms at hand for the first classifier of ECOC for a range of numbers of MNIST training points. \\\\
+We implemented Platt's SMO, WSS1 in two variations and WSS2. The first variation of WSS1 caches all computations of Gramian matrix rows in order to avoid expensive double computations. The other variant of WSS1 is forgetful. Taking the scikit-learn SVC algorithm as a 5th (tough) competitor, we tested the algorithms at hand for the first classifier of ECOC (see Section \ref{sec:ecoc}) for a range of numbers of MNIST training points. \\\\
 As can be seen, the speediest algorithms are, in decreasing order: scikit-learn, WSS1 with caching, WSS2 with caching, WSS1 without caching, Platt's SMO. Somewhat surprisingly, WSS2 with caching is not the fastest method, although in theory it should be superior to WSS1 with caching. Apparently, the extra computational cost outweighs the theoretical gain. We suppose that the strange kink in the WSS1 with caching graph (Figure \ref{bench_ssp}) is due to multicore features of Python kicking in at 1800 training points. The benchmarks were carried out on a Windows 7 x64 machine with an Intel i5 quad core processor at 4 GHz and 16 GB of RAM.\\\\
-The polynomial order of all algorithms is 2, judging from the loglog plot in Figure \ref{bench_gauss_loglog} and a linear least squares fit of the loglog data for WSS1 with caching. The latter also yielded that our WSS1 with caching takes about 5.8 times as long as scikit-learn.
+Judging from the loglog data visualized in Figure \ref{bench_gauss_loglog}, the polynomial order of all algorithms is 2. A linear fit yielded that our WSS1 with caching takes about 5.8 times as long as scikit-learn.
 
 \begin{figure}[h!]
 	\includegraphics[width=1\textwidth, center]{benchplot_gauss.pdf}
